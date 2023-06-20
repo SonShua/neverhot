@@ -1,16 +1,18 @@
 from django.contrib.auth.models import BaseUserManager
 from django.core.exceptions import ValidationError
+import re
 
 
-class CutomUserManager(BaseUserManager):
+class CustomUserManager(BaseUserManager):
     def create_user(self, username, email, password=None):
         if not username or username is None:
             raise ValidationError("User must have username")
-        # Making sure email is nulled to allow for blank emails in the db
-        if not email:
+        if email is "":
             email = None
-        if email:
-            email = self.normalize_email(email)
+        # Making sure email is nulled to allow for blank emails in the db
+        # alphanumeric = r"^[0-9a-zA-Z]*$"
+        # if re.search(alphanumeric, username) == None:
+        # raise ValidationError("Only alphanumeric allowed")
         user = self.model(
             username=username,
             email=email,
