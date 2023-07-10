@@ -6,20 +6,30 @@
 {% block content %}
 
 
-<div class="card text-center">
-    <div class="card-header">
-        Aktuelles Wetter
-    </div>
-    <div class="card-body">
-        <h5 class="card-title">{{city.city_name}}</h5>
-        <p class="card-text">
-        <p>{{city.temp}} °C</p>
-        <p>{{city.hum}} % rel. Luftfeuchtigkeit</p>
-        </p>
-        <a href="#" class="btn btn-primary">Möchten Kleidungsempfehlung?</a>
-    </div>
-    <div class="card-footer text-muted">
-        {{city.last_updated}}
+<div class="d-flex  justify-content-center p-2">
+    <div class="col-md-6">
+        <!-- Cards -->
+        <div class="card text-center mx-auto m-2" , style="width: 25rem;">
+            <!-- hardcoded Berlin-->
+            <div class="card-header">
+                <h5>{{city.city_name}}</h5>
+            </div>
+            <div class="card-body">
+                <h7 class="card-title">Wetter</h7>
+                <p class="card-text">
+                <p>{{city.temp}} °C</p>
+                <p>{{city.hum}} % rel. Luftfeuchtigkeit</p>
+                </p>
+                <a href="#" class="btn btn-primary">Möchten Kleidungsempfehlung?</a>
+            </div>
+            <div class="card-footer text-muted">
+                Zuletzt geupdatet: {{city.last_updated |date:"d.m.y G:i"}}
+            </div>
+        </div>
+        <div class="text-center mx-auto mb-2">
+            <a class="btn btn-primary btn-sm m-2" href="#" role="button">Add city?</a>
+        </div>
+
     </div>
 </div>
 
