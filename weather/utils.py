@@ -2,7 +2,13 @@ import requests
 
 
 def get_weather(lat, lon):
-    # Put api key to Env IMPORTANT
+    """
+    Returns temperature and humidity of location defined by lat/lon as tuple. Openweathermap api call.
+
+    Parameters:
+    lat (float) --> Celestial latitude of location
+    lon (float) --> Celestial longitude of location)"""
+    # SECRETS
     api_key = "ab769f949632a08f7f69a9a014a26d97"
     url = f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={api_key}"
     city_weather = requests.get(url).json()

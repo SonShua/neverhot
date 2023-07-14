@@ -6,12 +6,12 @@ from .tasks import schedulded_update_weather
 import datetime
 import time
 
+
 # Create your tests here.
 
 
 class CityTestCase(TestCase):
     def setUp(self):
-        # Lat, Lon from openweathermap geocode api
         City.objects.create(city_name="Berlin", lat=52.5170365, lon=13.3888599)
 
     def test_city_has_temp(self):
@@ -24,14 +24,17 @@ class CityTestCase(TestCase):
 
 
 class BackgroundTaskTestCase(TestCase):
-    # Updates the weather and the last_updated in db should also be incremented
+    """Checks if background-task schedulded_weather_update is working
+
+    Creates a city, grabs the last_updated (datetime), updates the records,
+    grabs last_updated (datetime) again and checks for inequality"""
+
     def setUp(self):
-        City.objects.create(city_name="Berlin", lat=52.5170365, lon=13.3888599)
-        time_now = datetime.datetime.now(datetime.timezone.utc)
+        City.objects.create(
+            city_name="Berlin", lat=52.5170365, lon=13.3888599, temp=20, hum=50
+        )
 
     def test_run_task(self):
-        # Creates the object and last_updated is filled with datetime now
-        # Grabbing the datetime of the object creation
         time_creation = City.objects.filter(city_name="Berlin").values("last_updated")[
             0
         ]["last_updated"]

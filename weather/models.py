@@ -15,9 +15,9 @@ class City(models.Model):
     last_updated = models.DateTimeField(auto_now=True)
 
     def save(self, *args, **kwargs):
-        # Gets the weather from openweathermap when first creating a city
-        if self.pk is None and self.temp is None:
-            print("auto update")
+        """Only ran when object is first created
+        Pass a value for temp and hum to avoid api calls for tests"""
+        if self.pk is None and self.temp is None and self.hum is None:
             self.temp, self.hum = get_weather(self.lat, self.lon)
         return super().save(*args, **kwargs)
 
