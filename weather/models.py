@@ -16,7 +16,8 @@ class City(models.Model):
 
     def save(self, *args, **kwargs):
         # Gets the weather from openweathermap when first creating a city
-        self.temp, self.hum = get_weather(self.lat, self.lon)
+        if self.pk is None:
+            self.temp, self.hum = get_weather(self.lat, self.lon)
         return super().save(*args, **kwargs)
 
     def __str__(self):

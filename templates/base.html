@@ -1,53 +1,64 @@
-<!-- templates/base.html -->
 {% load static %}
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
-    <title>{% block title %}Never hot App{% endblock title %}</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Never Hot</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 </head>
 
 <body>
     <div class="container">
-        <header class="p-3 mb-3 border-bottom">
+        <header class="px-1 mb-1 border-bottom">
             <div class="container">
-                <div class="d-flex flex-wrap align-items-center justify-content-center
-            justify-content-lg-start">
-                    <a class="navbar-brand" href="{% url 'home' %}">Never hot</a>
-                    <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center
-              mb-md-0">
-                        {% if user.is_authenticated %}
-                    </ul>
-                    <div class="dropdown text-end">
-                        <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            {{ user.username }}
-                        </a>
-                        <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-                            <li><a class="dropdown-item" href="{% url 'password_change'%}">
-                                    Change password</a></li>
-                            <li><a class="dropdown-item" href="{% url 'logout' %}">Log Out</a></li>
-                        </ul>
+                <!-- Navigation bar -->
+                <nav class="navbar navbar-expand-lg navbar-light " style="background-color: #ffffff;">
+                    <div class=" container-fluid">
+                        <a class="navbar-brand" href="{% url 'home' %}"><svg xmlns="http://www.w3.org/2000/svg"
+                                width="16" height="16" fill="currentColor" class="bi bi-fire" viewBox="0 0 16 16">
+                                <path
+                                    d="M8 16c3.314 0 6-2 6-5.5 0-1.5-.5-4-2.5-6 .25 1.5-1.25 2-1.25 2C11 4 9 .5 6 0c.357 2 .5 4-2 6-1.25 1-2 2.729-2 4.5C2 14 4.686 16 8 16Zm0-1c-1.657 0-3-1-3-2.75 0-.75.25-2 1.25-3C6.125 10 7 10.5 7 10.5c-.375-1.25.5-3.25 2-3.5-.179 1-.25 2 1 3 .625.5 1 1.364 1 2.25C11 14 9.657 15 8 15Z" />
+                            </svg> Never Hot </a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false"
+                            aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarScroll">
+                            <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll"
+                                style="--bs-scroll-height: 100px;">
+                                <li class="nav-item">
+                                    <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'weather' %}">Weather</a>
+                                </li>
+                            </ul>
+                            <!-- User section  -->
+                            {% if user.is_authenticated %}
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    {{user.username}}
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#">Change Password</a></li>
+                                    <li><a class="dropdown-item" href="#">Logout</a></li>
+                                </ul>
+                            </div>
+                            {% else %}
+                            <a class="btn btn-primary btn-sm me-1" href="#" role="button">Log In</a>
+                            <a class="btn btn-secondary btn-sm" href="{% url 'signup' %}" role="button">Sign Up</a>
+                            {% endif %}
+                        </div>
                     </div>
-                    {% else %}
-                    </ul>
-                    <div class="text-end">
-                        <a href="{% url 'login' %}" class="btn btn-outline-primary me-2">
-                            Log In</a>
-                        <a href="{% url 'signup' %}" class="btn btn-primary">Sign Up</a>
-                    </div>
-                    {% endif %}
-                </div>
             </div>
         </header>
 
+        </nav>
         <main>
             {% block content %}
             {% endblock content %}
@@ -57,8 +68,3 @@
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
         crossorigin="anonymous"></script>
 </body>
-
-
-</body>
-
-</html>

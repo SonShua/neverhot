@@ -12,4 +12,14 @@ def get_weather(lat, lon):
 
 
 def kelvin_to_celsius(temp):
-    return temp - 273.15
+    return round(temp - 273.15, 2)
+
+
+def get_geocode(name):
+    # SECRETS
+    api_key = "ab769f949632a08f7f69a9a014a26d97"
+    url = (
+        f"http://api.openweathermap.org/geo/1.0/direct?q={name}&limit=5&appid={api_key}"
+    )
+    cities_suggestion = requests.get(url).json()
+    return cities_suggestion
