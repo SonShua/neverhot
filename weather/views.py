@@ -11,6 +11,7 @@ class CityView(TemplateView):
     template_name = "city_index.html"
     schedulded_update_weather()
 
+    # Only displaying Berlin for now
     def get_context_data(self, *args, **kwargs):
         context = super(CityView, self).get_context_data(*args, **kwargs)
         context["city"] = City.objects.get(city_name="Berlin")
