@@ -8,7 +8,7 @@ from weather.tasks import schedulded_update_weather
 
 
 class CityView(TemplateView):
-    template_name = "city_index.html"
+    template_name = "weather.html"
     schedulded_update_weather()
 
     # Only displaying Berlin for now
