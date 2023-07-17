@@ -1,5 +1,6 @@
 from typing import Any, Dict
-from django.views.generic import TemplateView, CreateView
+from django.db.models.query import QuerySet
+from django.views.generic import TemplateView, CreateView, ListView
 from .models import City
 from django.shortcuts import render, redirect
 from .forms import InputForm
@@ -7,20 +8,20 @@ from .utils import get_geocode
 from weather.tasks import schedulded_update_weather
 
 
-class CityView(TemplateView):
+class CityView(ListView):
+    model = City
     template_name = "weather.html"
     schedulded_update_weather()
 
-    # Only displaying Berlin for now
-    def get_context_data(self, *args, **kwargs):
-        context = super(CityView, self).get_context_data(*args, **kwargs)
-        context["city"] = City.objects.get(city_name="Berlin")
-        return context
+    def get_queryset(self):
+        return self.model.objects.all()
 
 
+"""
 # Started the features of user search of a city with openweathermap api
 # On pause for now, no feature for user to add new city
-"""
+
+
 def CityAddView(request):
     context = {}
     form = InputForm(request.POST or None)

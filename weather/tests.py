@@ -3,8 +3,6 @@ from .models import City
 from background_task import background
 from background_task.tasks import tasks
 from .tasks import schedulded_update_weather
-import datetime
-import time
 
 
 # Create your tests here.

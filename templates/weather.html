@@ -1,32 +1,50 @@
 <!-- templates/home.html -->
 {% extends "base.html" %}
+{% load static %}
 
-{% block title %}Home{% endblock title %}
+{% block title %}Weather{% endblock title %}
+
 
 {% block content %}
+<div id="main">
+    <section>
+        Stay prepared with our Weather App!
 
-
-<div class="d-flex  justify-content-center p-2">
-    <div class="col-md-6">
-        <!-- Cards -->
-        <div class="card text-center mx-auto m-2" , style="width: 25rem;">
-            <!-- hardcoded Berlin-->
-            <div class="card-header">
-                <h5>{{city.city_name}}</h5>
+        Get accurate forecasts and personalized clothing recommendations for any weather condition. From sunny days to
+        rainy
+        afternoons, our app keeps you informed and helps you dress appropriately. Download now and stay ahead of the
+        weather
+        while looking your best!
+    </section>
+    <div id="carouselExample" class="carousel slide carousel-dark">
+        <div class="carousel-inner">
+            {% for city in city_list %}
+            <div class="carousel-item {% if forloop.first %} active {% endif %}">
+                <div class="card text-center mx-auto m-2" , style="max-width: 440px;">
+                    <div class="card-header">
+                        <h5>{{city.city_name}}</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">
+                        <p>{{city.temp}} °C</p>
+                        <p>{{city.hum}} % rel. Luftfeuchtigkeit</p>
+                        </p>
+                        <a href="#" class="btn btn-secondary btn-sm" aria-disabled="true">Kleidungsempfehlung</a>
+                    </div>
+                    <div class="card-footer text-muted">
+                        Zuletzt geupdatet: {{city.last_updated |date:"d.m.y G:i"}}
+                    </div>
+                </div>
             </div>
-            <div class="card-body">
-                <h7 class="card-title">Wetter</h7>
-                <p class="card-text">
-                <p>{{city.temp}} °C</p>
-                <p>{{city.hum}} % rel. Luftfeuchtigkeit</p>
-                </p>
-                <a href="#" class="btn btn-primary">Möchten Kleidungsempfehlung?</a>
-            </div>
-            <div class="card-footer text-muted">
-                Zuletzt geupdatet: {{city.last_updated |date:"d.m.y G:i"}}
-            </div>
+            {% endfor %}
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
     </div>
-</div>
-
-{% endblock content %}
+    {% endblock content %}

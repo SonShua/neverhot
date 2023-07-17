@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import CityView  # , CityAddView, CitySelectView, NoCityView
+from .views import CityView  # , CityAddView  # CitySelectView, NoCityView
 
 urlpatterns = [
     path("", CityView.as_view(), name="weather"),

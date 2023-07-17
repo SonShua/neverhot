@@ -1,11 +1,27 @@
 <!-- templates/home.html -->
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}Home{% endblock title %}
 
 {% block content %}
 
+<head>
+    <title>Homepage</title>
+</head>
 
+<body>
+
+    <div id="main">
+        <div class="container">
+            <section>
+                <h3>Hi! Welcome to my homepage</h3>
+                <p>I'm Josh and teaching myself software and web development and this is my
+                    portfolio website. Currently I'm building a clothing recommendations app based on the weather.</p>
+            </section>
+        </div>
+    </div>
+</body>
 
 
 {% endblock content %}
