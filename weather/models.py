@@ -7,6 +7,7 @@ from .utils import get_weather
 
 class City(models.Model):
     city_name = models.CharField(max_length=500, null=False, blank=False, unique=True)
+    country = models.CharField(max_length=500, null=False, blank=True)
     lat = models.FloatField(null=False, blank=False)
     lon = models.FloatField(null=False, blank=False)
     temp = models.FloatField(null=True, blank=True)

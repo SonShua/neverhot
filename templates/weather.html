@@ -22,10 +22,9 @@
             <div class="carousel-item {% if forloop.first %} active {% endif %}">
                 <div class="card text-center mx-auto m-2" , style="max-width: 440px;">
                     <div class="card-header">
-                        <h5>{{city.city_name}}</h5>
+                        <h5><a href="{% url 'city_detail' city.pk %}">{{city.city_name}}</a></h5>
                     </div>
                     <div class="card-body">
-                        <p class="card-text">
                         <p>{{city.temp}} °C</p>
                         <p>{{city.hum}} % rel. Luftfeuchtigkeit</p>
                         </p>

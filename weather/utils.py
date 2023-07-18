@@ -17,6 +17,13 @@ def get_weather(lat, lon):
     return temp, hum
 
 
+def get_weather_forecast(lat, lon):
+    api_key = "ab769f949632a08f7f69a9a014a26d97"
+    url = f"http://api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={api_key}"
+    weather_forecast = requests.get(url).json()
+    return weather_forecast
+
+
 def kelvin_to_celsius(temp):
     return round(temp - 273.15, 2)
 

@@ -1,6 +1,6 @@
 from typing import Any, Dict
 from django.db.models.query import QuerySet
-from django.views.generic import TemplateView, CreateView, ListView
+from django.views.generic import ListView, DetailView
 from .models import City
 from django.shortcuts import render, redirect
 from .forms import InputForm
@@ -17,6 +17,11 @@ class CityView(ListView):
         return self.model.objects.all()
 
 
+class CityDetailView(DetailView):
+    model = City
+    template_name = "city_detail.html"
+
+
 """
 # Started the features of user search of a city with openweathermap api
 # On pause for now, no feature for user to add new city
@@ -30,7 +35,7 @@ def CityAddView(request):
         # might need to override the is_valid function to check for alpha chars
         # could implement the cities_suggestion logic into the is_valid method then I wouldn't the extra view
         if form.is_valid():
-            cities_suggestions = get_geocode(request.POST["city_name"])
+            cities_suggestions = get_geocode(request.POST["name"])
             if cities_suggestions:
                 request.session["cities_suggestions"] = cities_suggestions
                 return redirect("city_select")
