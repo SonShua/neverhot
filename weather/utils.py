@@ -1,31 +1,7 @@
 import requests
-
-
-def get_weather(lat, lon):
-    """
-    Returns temperature and humidity of location defined by lat/lon as tuple. Openweathermap api call.
-
-    Parameters:
-    lat (float) --> Celestial latitude of location
-    lon (float) --> Celestial longitude of location)"""
-    # SECRETS
-    api_key = "ab769f949632a08f7f69a9a014a26d97"
-    url = f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={api_key}"
-    city_weather = requests.get(url).json()
-    temp = kelvin_to_celsius(city_weather["main"]["temp"])
-    hum = city_weather["main"]["humidity"]
-    return temp, hum
-
-
-def get_weather_forecast(lat, lon):
-    api_key = "ab769f949632a08f7f69a9a014a26d97"
-    url = f"http://api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={api_key}"
-    weather_forecast = requests.get(url).json()
-    return weather_forecast
-
-
-def kelvin_to_celsius(temp):
-    return round(temp - 273.15, 2)
+from .models import City
+from .models import Weather
+import datetime
 
 
 def get_geocode(name):
@@ -36,3 +12,32 @@ def get_geocode(name):
     )
     cities_suggestion = requests.get(url).json()
     return cities_suggestion
+
+
+def get_weather_forecast(city_name):
+    """API call to openweathermap to get weather forecast. Creates multiple instances of Weather.
+
+    city_name (str) -> Name of a city exisiting in model City"""
+    api_key = "ab769f949632a08f7f69a9a014a26d97"
+    weather_forecast = {}
+    try:
+        city = City.objects.get(city_name=city_name)
+        url = f"http://api.openweathermap.org/data/2.5/forecast?lat={city.lat}&lon={city.lon}&appid={api_key}"
+        weather_forecast = requests.get(url).json()
+        # range controls how far the forecast reaches, max is 38 (16 day forecast?)
+        # forecast is in three hour intervals (0,3,6,9,12,15,etc)
+        for x in range(0, 1):
+            Weather.objects.create(
+                city=city,
+                temp=weather_forecast["list"][x]["main"]["temp"],
+                temp_feel=weather_forecast["list"][x]["main"]["feels_like"],
+                hum=weather_forecast["list"][x]["main"]["humidity"],
+                wind_speed=weather_forecast["list"][x]["wind"]["speed"],
+                datetime=datetime.datetime.strptime(
+                    weather_forecast["list"][x]["dt_txt"] + " +0000",
+                    f"%Y-%m-%d %H:%M:%S %z",
+                ),
+            )
+        return weather_forecast
+    except City.DoesNotExist:
+        return weather_forecast
