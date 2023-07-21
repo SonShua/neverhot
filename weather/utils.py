@@ -1,6 +1,5 @@
+from .models import City, Forecast
 import requests
-from .models import City
-from .models import Weather
 import datetime
 
 
@@ -12,6 +11,20 @@ def get_geocode(name):
     )
     cities_suggestion = requests.get(url).json()
     return cities_suggestion
+
+
+def get_weather(lat, lon):
+    """
+    Sets temperature and humidity of location defined by lat/lon as tuple. Openweathermap api call.
+    """
+    # SECRETS
+    api_key = "ab769f949632a08f7f69a9a014a26d97"
+    url = f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={api_key}"
+    city_weather = requests.get(url).json()
+    temp = round(city_weather["main"]["temp"] - 273.15, 2)
+    hum = city_weather["main"]["humidity"]
+    icon = city_weather["weather"][0]["icon"]
+    return temp, hum, icon
 
 
 def get_weather_forecast(city_name):
@@ -26,15 +39,18 @@ def get_weather_forecast(city_name):
         weather_forecast = requests.get(url).json()
         # range controls how far the forecast reaches, max is 38 (16 day forecast?)
         # forecast is in three hour intervals (0,3,6,9,12,15,etc)
-        for x in range(0, 1):
-            Weather.objects.create(
+        for x in range(0, 5):
+            Forecast.objects.create(
                 city=city,
                 temp=weather_forecast["list"][x]["main"]["temp"],
                 temp_feel=weather_forecast["list"][x]["main"]["feels_like"],
                 hum=weather_forecast["list"][x]["main"]["humidity"],
                 wind_speed=weather_forecast["list"][x]["wind"]["speed"],
+                icon=weather_forecast["list"][x]["weather"][0]["icon"],
                 datetime=datetime.datetime.strptime(
-                    weather_forecast["list"][x]["dt_txt"] + " +0000",
+                    # Hardcoded timezone for Germany, needs a helper function if accepting new cities
+                    weather_forecast["list"][x]["dt_txt"] + " +0200",
+                    # %z is the offset to UTC
                     f"%Y-%m-%d %H:%M:%S %z",
                 ),
             )

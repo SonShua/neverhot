@@ -1,10 +1,12 @@
 from typing import Any, Dict
+from django.db import models
 from django.db.models.query import QuerySet
 from django.views.generic import ListView, DetailView
-from .models import City
+from django.http import HttpResponseNotFound
+from .models import City, Forecast
 from django.shortcuts import render, redirect
 from .forms import InputForm
-from .utils import get_geocode
+from .utils import get_weather_forecast
 from weather.tasks import schedulded_update_weather
 
 
@@ -17,9 +19,14 @@ class CityView(ListView):
         return self.model.objects.all()
 
 
-class CityDetailView(DetailView):
-    model = City
+class CityDetailView(ListView):
+    model = Forecast
     template_name = "city_detail.html"
+
+    def get_object(self):
+        # View gets pk from City, is also fk in Forecast
+        # Backward search from fk field in Forecast (city)
+        return self.model.objects.get(city__id=self.kwargs["pk"])
 
 
 """

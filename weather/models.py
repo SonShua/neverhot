@@ -11,6 +11,7 @@ class City(models.Model):
     lon = models.FloatField(null=False, blank=False)
     temp = models.FloatField(null=True, blank=True)
     hum = models.IntegerField(null=True, blank=True)
+    icon = models.CharField(null=False, blank=True, max_length=500)
     # Automatically use datetime from default_timezone when creating/updating
     last_updated = models.DateTimeField(auto_now=True)
 
@@ -34,16 +35,18 @@ class City(models.Model):
         city_weather = requests.get(url).json()
         self.temp = round(city_weather["main"]["temp"] - 273.15, 2)
         self.hum = city_weather["main"]["humidity"]
+        self.icon = city_weather["weather"][0]["icon"]
 
 
-class Weather(models.Model):
+class Forecast(models.Model):
     city = models.ForeignKey(City, on_delete=models.CASCADE)
-    temp = models.FloatField(null=True, blank=False)
-    temp_feel = models.FloatField(null=True, blank=False)
-    hum = models.IntegerField(null=True, blank=False)
-    wind_speed = models.FloatField(null=True, blank=False)
-    datetime = models.DateTimeField(null=True, blank=False)
+    temp = models.FloatField(null=False, blank=True)
+    temp_feel = models.FloatField(null=False, blank=True)
+    hum = models.IntegerField(null=False, blank=True)
+    wind_speed = models.FloatField(null=False, blank=True)
+    datetime = models.DateTimeField(null=False, blank=True)
+    icon = models.CharField(null=False, blank=True, max_length=500)
     last_updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.city.city_name
+        return f"{self.city.city_name} + {self.datetime}"

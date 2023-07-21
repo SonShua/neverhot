@@ -3,7 +3,8 @@
 {% block content %}
 
 <div id="main">
-    <h3>{{ city.city_name }}</h3>
-    <p>{{ city.temp }}</p>
+    {% for fore in forecast_list %}
+    <p>{{ fore.temp }}</p>
+    {% endfor %}
 </div>
 {% endblock content %}
