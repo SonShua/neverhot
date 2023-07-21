@@ -39,21 +39,27 @@ def get_weather_forecast(city_name):
         weather_forecast = requests.get(url).json()
         # range controls how far the forecast reaches, max is 38 (16 day forecast?)
         # forecast is in three hour intervals (0,3,6,9,12,15,etc)
-        for x in range(0, 5):
-            Forecast.objects.create(
+        for x in range(0, 10):
+            # Checks db if unique_together city + datetime already exists, if yes we just update, otherwise create
+            Forecast.objects.update_or_create(
                 city=city,
-                temp=weather_forecast["list"][x]["main"]["temp"],
-                temp_feel=weather_forecast["list"][x]["main"]["feels_like"],
-                hum=weather_forecast["list"][x]["main"]["humidity"],
-                wind_speed=weather_forecast["list"][x]["wind"]["speed"],
-                icon=weather_forecast["list"][x]["weather"][0]["icon"],
                 datetime=datetime.datetime.strptime(
-                    # Hardcoded timezone for Germany, needs a helper function if accepting new cities
                     weather_forecast["list"][x]["dt_txt"] + " +0200",
                     # %z is the offset to UTC
                     f"%Y-%m-%d %H:%M:%S %z",
                 ),
+                # Fields to update : updated value
+                defaults={
+                    "temp": round(
+                        weather_forecast["list"][x]["main"]["temp"] - 273.15, 2
+                    ),
+                    "temp_feel": round(
+                        weather_forecast["list"][x]["main"]["feels_like"] - 273.15, 2
+                    ),
+                    "hum": weather_forecast["list"][x]["main"]["humidity"],
+                    "wind_speed": weather_forecast["list"][x]["wind"]["speed"],
+                    "icon": weather_forecast["list"][x]["weather"][0]["icon"],
+                },
             )
-        return weather_forecast
     except City.DoesNotExist:
         return weather_forecast

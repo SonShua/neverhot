@@ -48,5 +48,9 @@ class Forecast(models.Model):
     icon = models.CharField(null=False, blank=True, max_length=500)
     last_updated = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        # Don't want double entries
+        unique_together = ["city", "datetime"]
+
     def __str__(self):
-        return f"{self.city.city_name} + {self.datetime}"
+        return f"{self.city.city_name} + {self.datetime} + {self.last_updated}"
