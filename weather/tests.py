@@ -30,7 +30,14 @@ class ForecastTestCase(TestCase):
 
     def test_forecast_has_values(self):
         all_forecasts = Forecast.objects.all()
-        self.assertEqual(str(all_forecasts[0].city), "Berlin")
+        # Should be 10 elements created and every field should be filled
+        for x in range(0, 10):
+            self.assertEqual(str(all_forecasts[x].city), "Berlin")
+            self.assertGreater(all_forecasts[x].temp, -20)
+            self.assertGreater(all_forecasts[x].temp_feel, -20)
+            self.assertTrue(0 <= all_forecasts[x].hum <= 100)
+            self.assertTrue(all_forecasts[x].wind_speed)
+            self.assertTrue(all_forecasts[x].icon)
 
 
 # Background db update tasks test
