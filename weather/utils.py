@@ -39,12 +39,13 @@ def get_weather_forecast(city_name):
         weather_forecast = requests.get(url).json()
         # range controls how far the forecast reaches, max is 38 (16 day forecast?)
         # forecast is in three hour intervals (0,3,6,9,12,15,etc)
-        for x in range(0, 10):
+        for x in range(0, 12):
             # Checks db if unique_together city + datetime already exists, if yes we just update, otherwise create
             Forecast.objects.update_or_create(
                 city=city,
                 datetime=datetime.datetime.strptime(
-                    weather_forecast["list"][x]["dt_txt"] + " +0200",
+                    # Datetime is delivered in UTC, creates an aware datetime object
+                    weather_forecast["list"][x]["dt_txt"] + " +0000",
                     # %z is the offset to UTC
                     f"%Y-%m-%d %H:%M:%S %z",
                 ),
@@ -61,5 +62,6 @@ def get_weather_forecast(city_name):
                     "icon": weather_forecast["list"][x]["weather"][0]["icon"],
                 },
             )
+            return weather_forecast
     except City.DoesNotExist:
         return weather_forecast

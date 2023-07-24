@@ -2,13 +2,13 @@ from typing import Any, Dict
 from django.db import models
 from django.db.models.query import QuerySet
 from django.views.generic import ListView, DetailView
-from django.http import HttpResponseNotFound
+from django.http import Http404, JsonResponse
 from .models import City, Forecast
 from django.shortcuts import render, redirect
 from .forms import InputForm
 from .utils import get_weather_forecast
 from weather.tasks import schedulded_update_weather
-import datetime
+import datetime, pytz, json
 
 
 class CityView(ListView):
@@ -20,14 +20,32 @@ class CityView(ListView):
         return self.model.objects.all()
 
 
+def sample_bar_chart(request):
+    queryset = Forecast.objects.filter(city__city_name="Berlin")
+    # Dataset constructor for line chart
+    tz = pytz.timezone("Europe/Berlin")
+    data2 = [
+        dict(
+            # Datetime is stored in UTC, need to adjust for local time
+            x=forecast.datetime.astimezone(tz).strftime("%m-%d-%Y %H:%M:%S"),
+            y=forecast.temp,
+        )
+        for forecast in queryset
+    ]
+
+    data3 = json.dumps(
+        {"x": "2021-11-06 23:39:30", "y": 50},
+        {"x": "2021-11-07 01:00:28", "y": 60},
+        {"x": "2021-11-07 09:00:28", "y": 20},
+    )
+
+    data = {"line": data3}
+    return render(request, "chart.html", data)
+
+
 class CityDetailView(ListView):
     """
     Goal: Display a line graph with the forecast data temperatures
-
-    Query all forecast available with active City object (indicated by pk from kwargs)
-    Filter it down to only forecasts of the day
-    Check if there are enough forecasts for the day, if not get new ones datetime.datetime.date
-
     Lets say for the beginning i always want to display 10 datapoints (~30 hours into the future)
     So I need the last object from the queryset to have a minimum of 27 hours into the future
 
@@ -43,12 +61,25 @@ class CityDetailView(ListView):
         """
         Return a queryset which has at least 27 hours of forecast data in the future
         """
+        queryset = self.model.objects.filter(city__id=self.kwargs["pk"])
+        city_name = City.objects.get(id=self.kwargs["pk"]).city_name
+        if not queryset:
+            get_weather_forecast(city_name)
+        # If not last forecast available is at least 27 hours in the future
+        # Trigger API call to get new forecasts
+        # Check: last forecast available is at least 27 hours in the future
+        # Fail -> Http404
         min_future_date_forecast = datetime.datetime.now(
             datetime.timezone.utc
         ) + datetime.timedelta(hours=27)
         queryset = self.model.objects.filter(city__id=self.kwargs["pk"])
         if min_future_date_forecast > getattr(queryset.latest("datetime"), "datetime"):
-            get_weather_forecast(str(queryset[0].city))
+            get_weather_forecast(city_name)
+            queryset = self.model.objects.filter(city__id=self.kwargs["pk"])
+            if min_future_date_forecast > getattr(
+                queryset.latest("datetime"), "datetime"
+            ):
+                raise Http404("No forecast data found")
         return self.model.objects.filter(city__id=self.kwargs["pk"])
 
 
