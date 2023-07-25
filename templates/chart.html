@@ -1,26 +1,62 @@
-<div>
-    <canvas id="myChart"></canvas>
+{% extends "base.html" %}
+
+
+
+{% block content %}
+
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script
+        src=" https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js "></script>
+    <script src=" https://cdn.jsdelivr.net/npm/date-fns@2.30.0/index.min.js "></script>
+    <script src=" https://cdn.jsdelivr.net/npm/html-escape@2.0.0/index.min.js "></script>
+    <script src=" https://cdn.jsdelivr.net/npm/parse-json@7.0.0/index.min.js "></script>
+</head>
+<div class="chart-container-1">
+    <canvas id="chart"></canvas>
 </div>
+<script type="text/javascript">
+    var test_data = '{{ line |safe}}';
+    var obj = JSON.parse(test_data);
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script
-    src=" https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js "></script>
-<script src=" https://cdn.jsdelivr.net/npm/date-fns@2.30.0/index.min.js "></script>
+</script>
 
-
-{{line | safe}}
 <script>
     const ctx = document.getElementById('myChart');
-    var hallo = "YAA"
-    var test_data = JSON.parse("{{line}}");
-    console.log(hallo)
     let chart = new Chart(ctx, {
         type: 'line',
         data: {
             datasets: [{
-                data: test_data,
+                label: 'Temperature[°C]',
+                tension: 0.4,
+                data: obj
             }],
         },
+        options: {
+            scales: {
+                x: {
+
+                    type: 'time',
+                    time: {
+                        unit: 'hour',
+                        unitStepSize: 3,
+                        displayFormats: { hour: 'HH' }
+                    },
+                    title: {
+                        display: true,
+                        text: "Hour"
+                    },
+
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: "Temperature [°C]"
+                    }
+                }
+            }
+        }
     });
 
 </script>
+{% endblock content %}

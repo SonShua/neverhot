@@ -20,26 +20,23 @@ class CityView(ListView):
         return self.model.objects.all()
 
 
-def sample_bar_chart(request):
+def sample_bar_chart(self, request):
     queryset = Forecast.objects.filter(city__city_name="Berlin")
+    self.kwargs["pk"]
     # Dataset constructor for line chart
     tz = pytz.timezone("Europe/Berlin")
-    data2 = [
-        dict(
-            # Datetime is stored in UTC, need to adjust for local time
-            x=forecast.datetime.astimezone(tz).strftime("%m-%d-%Y %H:%M:%S"),
-            y=forecast.temp,
-        )
-        for forecast in queryset
-    ]
-
-    data3 = json.dumps(
-        {"x": "2021-11-06 23:39:30", "y": 50},
-        {"x": "2021-11-07 01:00:28", "y": 60},
-        {"x": "2021-11-07 09:00:28", "y": 20},
+    data = json.dumps(
+        [
+            dict(
+                # Datetime is stored in UTC, need to adjust for local time
+                x=forecast.datetime.astimezone(tz).isoformat(),
+                y=forecast.temp,
+            )
+            for forecast in queryset
+        ]
     )
 
-    data = {"line": data3}
+    data = {"line": data}
     return render(request, "chart.html", data)
 
 
@@ -56,6 +53,23 @@ class CityDetailView(ListView):
 
     model = Forecast
     template_name = "city_detail.html"
+
+    def get_context_data(self, **kwargs: Any):
+        queryset = Forecast.objects.filter(city__id=self.kwargs["pk"])
+        # Dataset constructor for line chart
+        tz = pytz.timezone("Europe/Berlin")
+        data = json.dumps(
+            [
+                dict(
+                    # Datetime is stored in UTC, need to adjust for local time
+                    x=forecast.datetime.astimezone(tz).isoformat(),
+                    y=forecast.temp,
+                )
+                for forecast in queryset
+            ]
+        )
+        context = {"line": data}
+        return context
 
     def get_queryset(self):
         """

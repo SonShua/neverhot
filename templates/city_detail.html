@@ -1,13 +1,64 @@
 {% extends "base.html" %}
 
+
+
 {% block content %}
-
-
-<div id="main">
-    {% for fore in forecast_list %}
-    <p>{{ fore.temp }}</p>
-    {% endfor %}
+<div class="chart-container-1">
+    <canvas id="myChart"></canvas>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script
+        src=" https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js "></script>
+    <script src=" https://cdn.jsdelivr.net/npm/date-fns@2.30.0/index.min.js "></script>
+    <script src=" https://cdn.jsdelivr.net/npm/html-escape@2.0.0/index.min.js "></script>
+    <script src=" https://cdn.jsdelivr.net/npm/parse-json@7.0.0/index.min.js "></script>
 </div>
 
+<script type="text/javascript">
+    var test_data = '{{ line |safe}}';
+    var obj = JSON.parse(test_data);
 
+</script>
+
+<script>
+    const ctx = document.getElementById('myChart');
+    let chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            datasets: [{
+                label: 'Temperature[°C]',
+                tension: 0.4,
+                data: obj
+            }],
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    type: 'time',
+                    time: {
+                        unit: 'hour',
+                        unitStepSize: 3,
+                        displayFormats: { hour: 'HH:mm' }
+                    },
+                    title: {
+                        display: true,
+                        text: "Hour"
+                    },
+                    ticks: {
+                        maxRotation: 0,
+                        autoSkipPadding: 10
+                    }
+
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: "Temperature [°C]"
+                    }
+                }
+            }
+        }
+    });
+
+</script>
 {% endblock content %}

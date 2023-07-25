@@ -62,6 +62,5 @@ def get_weather_forecast(city_name):
                     "icon": weather_forecast["list"][x]["weather"][0]["icon"],
                 },
             )
-            return weather_forecast
     except City.DoesNotExist:
         return weather_forecast

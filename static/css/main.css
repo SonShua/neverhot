@@ -53,3 +53,20 @@ h1 {
 .carousel-inner {
     padding: 3em;
 }
+
+/* Charts */
+
+.chart-container-1 {
+    position: relative;
+    display: block;
+    margin: auto;
+    height: 100%;
+    width: 100%;
+}
+
+canvas {
+    padding: 0;
+    margin: auto;
+    display: block;
+    width: 800px;
+}
