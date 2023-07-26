@@ -21,6 +21,16 @@ h1 {
     line-height: 1.3;
 }
 
+h1.start {
+    color: #8c8c8c;
+    font-weight: 400;
+    margin: 0 0 0 0.4em;
+}
+
+h2.celsius {
+    margin: 5em 5em 0 0.4em;
+}
+
 #main {
     width: 100%;
     max-width: 68em;
@@ -49,7 +59,6 @@ h1 {
 }
 
 
-
 .carousel-inner {
     padding: 3em;
 }
@@ -57,16 +66,31 @@ h1 {
 /* Charts */
 
 .chart-container-1 {
+    overflow: auto;
     position: relative;
-    display: block;
     margin: auto;
-    height: 100%;
+    height: 30vw;
+    width: 70vw;
+
+}
+
+img.icon {
+    filter: contrast(0.5);
+}
+
+.icon-container {
+    display: flex;
+    padding: auto;
+    width: 70vw;
+    margin: auto;
+    background-color: rgb(255, 255, 255);
+}
+
+.chart-container-main {
     width: 100%;
+    height: 100%;
 }
 
 canvas {
-    padding: 0;
-    margin: auto;
-    display: block;
-    width: 800px;
+    width: 100%;
 }

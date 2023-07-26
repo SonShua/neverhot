@@ -3,19 +3,44 @@
 
 
 {% block content %}
-<div class="chart-container-1">
-    <canvas id="myChart"></canvas>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script
-        src=" https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js "></script>
-    <script src=" https://cdn.jsdelivr.net/npm/date-fns@2.30.0/index.min.js "></script>
-    <script src=" https://cdn.jsdelivr.net/npm/html-escape@2.0.0/index.min.js "></script>
-    <script src=" https://cdn.jsdelivr.net/npm/parse-json@7.0.0/index.min.js "></script>
+<div class="icon-container">
+    <h1 class="start">Wetter in {{city_name}}</h1>
+</div>
+
+<div class="icon-container">
+    <div class="d-flex 
+                justify-content-start 
+                flex-row">
+        <div class="col">
+            <img class="icon" src="https://openweathermap.org/img/wn/{{forecast_list.0.icon}}@2x.png">
+        </div>
+        <div class="col-md-auto align-self-center">
+            <h1>{{forecast_list.0.temp}}</h1>
+        </div>
+        <div class="col-md-auto align-self-md-center">
+            <h5 class="celsius">°C</h5>
+        </div>
+
+    </div>
+</div>
+
+<div class="chart-container-main">
+    <div class="chart-container-1">
+        <canvas id="myChart"></canvas>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script
+            src=" https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js "></script>
+        <script src=" https://cdn.jsdelivr.net/npm/date-fns@2.30.0/index.min.js "></script>
+        <script src=" https://cdn.jsdelivr.net/npm/html-escape@2.0.0/index.min.js "></script>
+        <script src=" https://cdn.jsdelivr.net/npm/parse-json@7.0.0/index.min.js "></script>
+    </div>
 </div>
 
 <script type="text/javascript">
-    var test_data = '{{ line |safe}}';
+    var test_data = '{{ temp |safe}}';
+    var temp_feel_load = '{{ temp_feel |safe}}';
     var obj = JSON.parse(test_data);
+    var temp_feel_parsed = JSON.parse(temp_feel_load);
 
 </script>
 
@@ -32,6 +57,7 @@
         },
         options: {
             responsive: true,
+            maintainAspectRatio: false,
             scales: {
                 x: {
                     type: 'time',

@@ -55,20 +55,42 @@ class CityDetailView(ListView):
     template_name = "city_detail.html"
 
     def get_context_data(self, **kwargs: Any):
-        queryset = Forecast.objects.filter(city__id=self.kwargs["pk"])
+        queryset = Forecast.objects.filter(city__id=self.kwargs["pk"]).filter(
+            datetime__gte=datetime.datetime.now()
+        )
+        icon_now = queryset[0].icon
+        temp_now = queryset[0].temp
+        city_name = City.objects.get(id=self.kwargs["pk"]).city_name
         # Dataset constructor for line chart
         tz = pytz.timezone("Europe/Berlin")
-        data = json.dumps(
+        temp_data = json.dumps(
             [
                 dict(
-                    # Datetime is stored in UTC, need to adjust for local time
+                    # Datetime is stored in UTC, return it in isoformat
                     x=forecast.datetime.astimezone(tz).isoformat(),
                     y=forecast.temp,
                 )
                 for forecast in queryset
             ]
         )
-        context = {"line": data}
+        temp_feel_data = json.dumps(
+            [
+                dict(
+                    # Datetime is stored in UTC, return it in isoformat
+                    x=forecast.datetime.astimezone(tz).isoformat(),
+                    y=forecast.temp_feel,
+                )
+                for forecast in queryset
+            ]
+        )
+        context = {
+            "temp": temp_data,
+            "temp_feel": temp_feel_data,
+            "city_name": city_name,
+            "icon_now": icon_now,
+            "temp_now": temp_now,
+            "forecast_list": queryset,
+        }
         return context
 
     def get_queryset(self):
@@ -94,7 +116,9 @@ class CityDetailView(ListView):
                 queryset.latest("datetime"), "datetime"
             ):
                 raise Http404("No forecast data found")
-        return self.model.objects.filter(city__id=self.kwargs["pk"])
+        return self.model.objects.filter(city__id=self.kwargs["pk"]).filter(
+            datetime__gte=datetime.datetime.now()
+        )
 
 
 """
