@@ -39,6 +39,12 @@ class ForecastTestCase(TestCase):
             self.assertTrue(all_forecasts[x].wind_speed)
             self.assertTrue(all_forecasts[x].icon)
 
+    def test_url_exists_at_correct_location(self):
+        berlin = City.objects.get(city_name="Berlin")
+        response = self.client.get(f"/weather/{berlin.pk}")
+        self.assertEqual(response.status_code, 200)
+        # Add testing for the chartjs object
+
 
 # Background db update tasks test
 
