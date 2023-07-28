@@ -1,6 +1,7 @@
 <!-- templates/home.html -->
 {% extends "base.html" %}
 {% load static %}
+{% load i18n %}
 
 {% block title %}Weather{% endblock title %}
 
@@ -8,13 +9,7 @@
 {% block content %}
 <div id="main">
     <section>
-        Stay prepared with our Weather App!
-
-        Get accurate forecasts and personalized clothing recommendations for any weather condition. From sunny days to
-        rainy
-        afternoons, our app keeps you informed and helps you dress appropriately. Download now and stay ahead of the
-        weather
-        while looking your best!
+        {% trans 'Stay prepared with our Weather App!' %}
     </section>
     <div id="carouselExample" class="carousel slide carousel-dark">
         <div class="carousel-inner">
@@ -26,11 +21,11 @@
                     </div>
                     <div class="card-body">
                         <p>{{city.temp}} °C</p>
-                        <p>{{city.hum}} % rel. Luftfeuchtigkeit</p>
+                        <p>{{city.hum}} % {% trans 'Humidity' %}</p>
                         </p>
                     </div>
                     <div class="card-footer text-muted">
-                        Zuletzt geupdatet: {{city.last_updated |date:"d.m.y G:i"}}
+                        {% trans 'Last updated:' %} {{city.last_updated |date:"d.m.y G:i"}}
                     </div>
                 </div>
             </div>

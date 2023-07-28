@@ -1,6 +1,7 @@
 <!-- templates/home.html -->
 {% extends "base.html" %}
 {% load static %}
+{% load i18n %}
 
 {% block title %}Home{% endblock title %}
 
@@ -15,10 +16,12 @@
     <div id="main">
         <div class="container">
             <section>
-                <h3>Hi! Welcome to page</h3>
-                <p>I'm Josh and teaching myself web development and this is a Python/Django powered website where
+                <h3> {% trans 'Hi! Welcome to my page' %} </h3>
+                <p> {% blocktranslate %} I'm Josh and teaching myself web development and this is a Python/Django
+                    powered website where
                     I implement backend and frontend concepts to learn. I've built a weather fetcher
-                    app which I'll expand on to build a clothing recommendation based on the weather data.</p>
+                    app which I'll expand on to build a clothing recommendation based on the weather data.
+                    {% endblocktranslate %}</p>
             </section>
         </div>
     </div>

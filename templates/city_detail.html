@@ -1,10 +1,11 @@
 {% extends "base.html" %}
+{% load i18n %}
 
 
 
 {% block content %}
 <div class="icon-container">
-    <h1 class="start">Wetter in {{city_name}}</h1>
+    <h1 class="start">{% trans ' Weather in' %} {{city_name}}</h1>
 </div>
 
 <div class="icon-container">
@@ -29,6 +30,7 @@
         <script src=" https://cdn.jsdelivr.net/npm/date-fns@2.30.0/index.min.js "></script>
         <script src=" https://cdn.jsdelivr.net/npm/html-escape@2.0.0/index.min.js "></script>
         <script src=" https://cdn.jsdelivr.net/npm/parse-json@7.0.0/index.min.js "></script>
+        <script src="{% url 'javascript-catalog' %}"></script>
     </div>
 </div>
 
@@ -36,7 +38,9 @@
     var test_data = '{{ temp |safe}}';
     var temp_feel_load = '{{ temp_feel |safe}}';
     var obj = JSON.parse(test_data);
+    var temp_trans = '{{temp_trans}}'
     var temp_feel_parsed = JSON.parse(temp_feel_load);
+    document.write(simpleString);
 
 </script>
 
@@ -46,7 +50,7 @@
         type: 'line',
         data: {
             datasets: [{
-                label: 'Temperature[°C]',
+                label: temp_trans,
                 tension: 0.4,
                 data: obj
             }],
@@ -63,8 +67,8 @@
                         displayFormats: { hour: 'HH:mm' }
                     },
                     title: {
-                        display: true,
-                        text: "Hour"
+                        //display: true,
+                        //text: "Hour"
                     },
                     ticks: {
                         maxRotation: 0,
@@ -75,7 +79,7 @@
                 y: {
                     title: {
                         display: true,
-                        text: "Temperature [°C]"
+                        text: temp_trans
                     }
                 }
             }

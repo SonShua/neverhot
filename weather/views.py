@@ -6,6 +6,7 @@ from django.http import Http404, JsonResponse
 from .models import City, Forecast
 from django.shortcuts import render, redirect
 from .forms import InputForm
+from django.utils.translation import gettext_lazy as _
 from .utils import get_weather_forecast
 from weather.tasks import schedulded_update_weather
 import datetime, pytz, json
@@ -18,26 +19,6 @@ class CityView(ListView):
 
     def get_queryset(self):
         return self.model.objects.all()
-
-
-def sample_bar_chart(self, request):
-    queryset = Forecast.objects.filter(city__city_name="Berlin")
-    self.kwargs["pk"]
-    # Dataset constructor for line chart
-    tz = pytz.timezone("Europe/Berlin")
-    data = json.dumps(
-        [
-            dict(
-                # Datetime is stored in UTC, need to adjust for local time
-                x=forecast.datetime.astimezone(tz).isoformat(),
-                y=forecast.temp,
-            )
-            for forecast in queryset
-        ]
-    )
-
-    data = {"line": data}
-    return render(request, "chart.html", data)
 
 
 class CityDetailView(ListView):
@@ -58,8 +39,6 @@ class CityDetailView(ListView):
         queryset = Forecast.objects.filter(city__id=self.kwargs["pk"]).filter(
             datetime__gte=datetime.datetime.now()
         )
-        icon_now = queryset[0].icon
-        temp_now = queryset[0].temp
         city_name = City.objects.get(id=self.kwargs["pk"]).city_name
         # Dataset constructor for line chart
         tz = pytz.timezone("Europe/Berlin")
@@ -83,13 +62,13 @@ class CityDetailView(ListView):
                 for forecast in queryset
             ]
         )
+        temp_trans = _("Temperature [°C]")
         context = {
             "temp": temp_data,
             "temp_feel": temp_feel_data,
             "city_name": city_name,
-            "icon_now": icon_now,
-            "temp_now": temp_now,
             "forecast_list": queryset,
+            "temp_trans": temp_trans,
         }
         return context
 

@@ -15,10 +15,17 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.conf.urls.i18n import i18n_patterns
+from django.views.i18n import JavaScriptCatalog
+from django.conf import settings
+from django.urls import path, include, re_path
 from django.views.generic.base import TemplateView
 
-urlpatterns = [
+urlpatterns = i18n_patterns(
     path("", include("pages.urls")),
     path("admin/", admin.site.urls),
-]
+    path("jsi18n/", JavaScriptCatalog.as_view(), name="javascript-catalog"),
+)
+
+if "rosetta" in settings.INSTALLED_APPS:
+    urlpatterns += [re_path(r"^rosetta/", include("rosetta.urls"))]

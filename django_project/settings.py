@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     "crispy_forms",
     "crispy_bootstrap5",
     "background_task",
+    "rosetta",
+    # "parler",
 ]
 
 MIDDLEWARE = [
@@ -58,10 +60,6 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-LANGUAGES = [
-    ("de", _("German")),
-    ("en", _("English")),
-]
 
 ROOT_URLCONF = "django_project.urls"
 
@@ -118,13 +116,39 @@ AUTH_USER_MODEL = "users.CustomUser"
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "en"
 
 TIME_ZONE = "Europe/Berlin"
+
+USE_L10N = True
 
 USE_I18N = True
 
 USE_TZ = True
+
+LANGUAGES = [
+    ("de", _("German")),
+    ("en", _("English")),
+]
+
+LOCALE_PATHS = [
+    BASE_DIR / "locale/",
+]
+
+PARLER_LANGUAGES = {
+    None: (
+        {
+            "code": "en",
+        },  # English
+        {
+            "code": "de",
+        },  # German
+    ),
+    "default": {
+        "fallbacks": ["en"],
+        "hide_untranslated": False,
+    },
+}
 
 
 # Static files (CSS, JavaScript, Images)
