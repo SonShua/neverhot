@@ -9,13 +9,15 @@
 {% block content %}
 <div id="main">
     <section>
-        {% trans 'Stay prepared with our Weather App!' %}
     </section>
     <div id="carouselExample" class="carousel slide carousel-dark">
         <div class="carousel-inner">
             {% for city in city_list %}
             <div class="carousel-item {% if forloop.first %} active {% endif %}">
                 <div class="card text-center mx-auto m-2" , style="max-width: 440px;">
+                    {% with 'images/'|add:city.img_path as image_static %}
+                    <img src="{% static image_static %}" class="card-img-top rounded float-start" alt="city image">
+                    {% endwith %}
                     <div class="card-header">
                         <h5><a href="{% url 'city_detail' city.pk %}">{{city.city_name}}</a></h5>
                     </div>
