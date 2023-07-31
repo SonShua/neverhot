@@ -4,97 +4,101 @@
 
 
 {% block content %}
-<div class="icon-container">
-    <h1 class="start">{% trans ' Weather in' %} {{city_name}}</h1>
-</div>
+<div id="weather-detail">
+    <div class="icon-container">
+        <span class="violet-text">{% now "d.m.y G:i"%}</span>
+        <h2 class="start">{{city_name}}</h1>
+    </div>
 
-<div class="icon-container">
-    <div class="d-flex 
+    <div class="icon-container">
+        <div class="d-flex 
                 justify-content-start 
                 flex-row">
-        <div class="col">
-            <img class="icon" src="https://openweathermap.org/img/wn/{{forecast_list.0.icon}}@2x.png">
-        </div>
-        <div class="col-md-auto align-self-center">
-            <h1>{{forecast_list.0.temp}}°C</h1>
-        </div>
-        <div class="col-md-auto mx-3">
-            <div class="d-flex 
-                justify-content-start 
-                flex-row">
-                {{forecast_list.0.hum}} % {% trans 'Humidity' %}<br>
+            <div class="col">
+                <img class="icon" src="https://openweathermap.org/img/wn/{{forecast_list.0.icon}}@2x.png">
             </div>
-            <div class="d-flex 
+            <div class="col-md-auto align-self-center">
+                <h1>{{forecast_list.0.temp}}°C</h1>
+            </div>
+            <div class="col-md-auto mx-3">
+                <div class="d-flex 
                 justify-content-start 
                 flex-row">
-                {{forecast_list.0.wind_speed}} m/s {% trans 'Wind speed' %}
+                    {{forecast_list.0.hum}} % {% trans 'Humidity' %}<br>
+                </div>
+                <div class="d-flex 
+                justify-content-start 
+                flex-row">
+                    {{forecast_list.0.wind_speed}} m/s {% trans 'Wind speed' %}
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="chart-container-main">
-    <div class="chart-container-1">
-        <canvas id="myChart"></canvas>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script
-            src=" https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js "></script>
-        <script src=" https://cdn.jsdelivr.net/npm/date-fns@2.30.0/index.min.js "></script>
-        <script src=" https://cdn.jsdelivr.net/npm/html-escape@2.0.0/index.min.js "></script>
-        <script src=" https://cdn.jsdelivr.net/npm/parse-json@7.0.0/index.min.js "></script>
-        <script src="{% url 'javascript-catalog' %}"></script>
+    <div class="chart-container-main">
+        <div class="chart-container-1">
+            <canvas id="myChart"></canvas>
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <script
+                src=" https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js "></script>
+            <script src=" https://cdn.jsdelivr.net/npm/date-fns@2.30.0/index.min.js "></script>
+            <script src=" https://cdn.jsdelivr.net/npm/html-escape@2.0.0/index.min.js "></script>
+            <script src=" https://cdn.jsdelivr.net/npm/parse-json@7.0.0/index.min.js "></script>
+            <script src="{% url 'javascript-catalog' %}"></script>
+        </div>
     </div>
-</div>
 
-<script type="text/javascript">
-    var test_data = '{{ temp |safe}}';
-    var temp_feel_load = '{{ temp_feel |safe}}';
-    var obj = JSON.parse(test_data);
-    var temp_trans = '{{temp_trans}}'
-    var temp_feel_parsed = JSON.parse(temp_feel_load);
-</script>
+    <script type="text/javascript">
+        var test_data = '{{ temp |safe}}';
+        var temp_feel_load = '{{ temp_feel |safe}}';
+        var obj = JSON.parse(test_data);
+        var temp_trans = '{{temp_trans}}'
+        var temp_feel_parsed = JSON.parse(temp_feel_load);
+    </script>
 
-<script>
-    const ctx = document.getElementById('myChart');
-    let chart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            datasets: [{
-                label: temp_trans,
-                tension: 0.4,
-                data: obj
-            }],
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                x: {
-                    type: 'time',
-                    time: {
-                        unit: 'hour',
-                        unitStepSize: 3,
-                        displayFormats: { hour: 'HH:mm' }
+    <script>
+        const ctx = document.getElementById('myChart');
+        let chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                datasets: [{
+                    label: temp_trans,
+                    tension: 0.4,
+                    data: obj
+                }],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'hour',
+                            unitStepSize: 3,
+                            displayFormats: { hour: 'HH:mm' }
+                        },
+                        title: {
+                            //display: true,
+                            //text: "Hour"
+                        },
+                        ticks: {
+                            maxRotation: 0,
+                            autoSkipPadding: 10
+                        }
+
                     },
-                    title: {
-                        //display: true,
-                        //text: "Hour"
-                    },
-                    ticks: {
-                        maxRotation: 0,
-                        autoSkipPadding: 10
-                    }
-
-                },
-                y: {
-                    title: {
-                        display: true,
-                        text: temp_trans
+                    y: {
+                        title: {
+                            display: true,
+                            text: temp_trans
+                        }
                     }
                 }
             }
-        }
-    });
+        });
 
-</script>
+    </script>
+
+</div>
 {% endblock content %}

@@ -6,6 +6,10 @@ body {
     top: 3.375em;
 }
 
+.container {
+    width: 70vw;
+}
+
 .footer {
     padding: 20px;
     text-align: center;
@@ -21,12 +25,14 @@ h1 {
     line-height: 1.3;
 }
 
+#weather-detail {
+    font-family: "Space Grotesk", Arial, sans-serif;
+}
+
 .start {
     color: #8c8c8c;
     font-weight: 700;
     font-size: 25px;
-    margin: 0 0 0 0.4em;
-    font-family: "Space Grotesk", Arial, sans-serif;
 }
 
 h2.celsius {
@@ -38,6 +44,10 @@ h2.celsius {
     max-width: 70vw;
     margin: 0 auto;
     padding: 0 2.5em;
+}
+
+.violet-text {
+    color: rgb(215, 14, 215);
 }
 
 
@@ -88,6 +98,7 @@ img.icon {
 
 .icon-container {
     display: flex;
+    flex-direction: column;
     padding: auto;
     width: 70vw;
     margin: auto;
