@@ -18,6 +18,18 @@
         <div class="col-md-auto align-self-center">
             <h1>{{forecast_list.0.temp}}°C</h1>
         </div>
+        <div class="col-md-auto mx-3">
+            <div class="d-flex 
+                justify-content-start 
+                flex-row">
+                {{forecast_list.0.hum}} % {% trans 'Humidity' %}<br>
+            </div>
+            <div class="d-flex 
+                justify-content-start 
+                flex-row">
+                {{forecast_list.0.wind_speed}} m/s {% trans 'Wind speed' %}
+            </div>
+        </div>
     </div>
 </div>
 
@@ -40,8 +52,6 @@
     var obj = JSON.parse(test_data);
     var temp_trans = '{{temp_trans}}'
     var temp_feel_parsed = JSON.parse(temp_feel_load);
-    document.write(simpleString);
-
 </script>
 
 <script>

@@ -10,11 +10,13 @@ from django.utils.translation import gettext_lazy as _
 from .utils import get_weather_forecast
 from weather.tasks import schedulded_update_weather
 import datetime, pytz, json
+import environ
+import os
 
 
 class CityView(ListView):
     model = City
-    template_name = "weather.html"
+    template_name = "weather2.html"
     schedulded_update_weather()
 
     def get_queryset(self):
@@ -37,7 +39,7 @@ class CityDetailView(ListView):
 
     def get_context_data(self, **kwargs: Any):
         queryset = Forecast.objects.filter(city__id=self.kwargs["pk"]).filter(
-            datetime__gte=datetime.datetime.now()
+            datetime__gte=datetime.datetime.now(datetime.timezone.utc)
         )
         city_name = City.objects.get(id=self.kwargs["pk"]).city_name
         # Dataset constructor for line chart
@@ -96,7 +98,7 @@ class CityDetailView(ListView):
             ):
                 raise Http404("No forecast data found")
         return self.model.objects.filter(city__id=self.kwargs["pk"]).filter(
-            datetime__gte=datetime.datetime.now()
+            datetime__gte=datetime.datetime.now(datetime.timezone.utc)
         )
 
 

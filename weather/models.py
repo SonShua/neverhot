@@ -47,6 +47,7 @@ class Forecast(models.Model):
     datetime = models.DateTimeField(null=False, blank=True)
     icon = models.CharField(null=False, blank=True, max_length=500)
     last_updated = models.DateTimeField(auto_now=True)
+    dt_naive = models.BooleanField()
 
     class Meta:
         # Don't want double entries
