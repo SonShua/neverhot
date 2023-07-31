@@ -1,0 +1,104 @@
+/* General */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    top: 3.375em;
+}
+
+.footer {
+    padding: 20px;
+    text-align: center;
+    font-size: 14px;
+    color: #777;
+}
+
+h1 {
+    color: #2c2d2f;
+    font-weight: 600;
+    line-height: 0.5;
+    margin: 0 0 1em 0;
+    line-height: 1.3;
+}
+
+.start {
+    color: #8c8c8c;
+    font-weight: 700;
+    font-size: 25px;
+    margin: 0 0 0 0.4em;
+    font-family: "Space Grotesk", Arial, sans-serif;
+}
+
+h2.celsius {
+    margin: 5em 5em 0 0.4em;
+}
+
+#main {
+    width: 100%;
+    max-width: 70vw;
+    margin: 0 auto;
+    padding: 0 2.5em;
+}
+
+
+/* Cards */
+.cards-wrapper {
+    display: flex;
+    justify-content: left;
+
+}
+
+.card img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.card {
+    margin: 0 0.5em;
+    box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);
+    border: none;
+    border-radius: 5;
+}
+
+
+.carousel-inner {
+    padding: 3em;
+}
+
+.card-img-top {
+    width: 100%;
+    height: 15vw;
+    object-fit: cover;
+}
+
+/* Charts */
+
+.chart-container-1 {
+    overflow: auto;
+    position: relative;
+    margin: auto;
+    height: 30vw;
+    width: 70vw;
+
+}
+
+img.icon {
+    filter: contrast(0.5);
+}
+
+.icon-container {
+    display: flex;
+    padding: auto;
+    width: 70vw;
+    margin: auto;
+    background-color: rgb(255, 255, 255);
+}
+
+.chart-container-main {
+    width: 100%;
+    height: 100%;
+}
+
+canvas {
+    width: 100%;
+}
