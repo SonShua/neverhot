@@ -12,6 +12,7 @@ class City(models.Model):
     temp = models.FloatField(null=True, blank=True)
     hum = models.IntegerField(null=True, blank=True)
     icon = models.CharField(null=False, blank=True, max_length=500)
+    img_path = models.CharField(max_length=200, default="default.jpg")
     # Automatically use datetime from default_timezone when creating/updating
     last_updated = models.DateTimeField(auto_now=True)
 

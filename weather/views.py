@@ -16,7 +16,7 @@ import os
 
 class CityView(ListView):
     model = City
-    template_name = "weather2.html"
+    template_name = "weather.html"
     schedulded_update_weather()
 
     def get_queryset(self):

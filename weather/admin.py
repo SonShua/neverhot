@@ -3,7 +3,19 @@ from .models import City, Forecast
 
 # Register your models here.
 
-admin.site.register(City)
+
+class ForecastInline(admin.TabularInline):
+    model = Forecast
+    fields = ["datetime", "dt_naive"]
+
+
+@admin.register(City)
+class CityAdmin(admin.ModelAdmin):
+    list_display = ("city_name", "last_updated")
+    ordering = ["id"]
+    inlines = [
+        ForecastInline,
+    ]
 
 
 @admin.register(Forecast)
