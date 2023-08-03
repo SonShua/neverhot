@@ -3,6 +3,8 @@
 {% load static %}
 {% load i18n %}
 
+
+
 {% block title %}Home{% endblock title %}
 
 {% block content %}
@@ -12,19 +14,64 @@
 </head>
 
 <body>
-
     <div id="main">
-        <div class="container">
-            <section>
-                <h3> {% trans 'Hi! Welcome to my page' %} </h3>
-                <p> {% blocktranslate %} I'm Josh and teaching myself web development and this is a Python/Django
-                    powered website where
-                    I implement backend and frontend concepts to learn. I've built a weather fetcher
-                    app which I'll expand on to build a clothing recommendation based on the weather data.
-                    {% endblocktranslate %}</p>
-            </section>
+        <div data-bs-spy="scroll" data-bs-target="#navbar" data-bs-offset="0" class="scrollspy-example" tabindex="0">
+            <!-- weather -->
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <h1 id="home">Home</h1>
+                    </div>
+                    <div class="d-flex p-2 flex-wrap justify-content-evenly">
+                        <div class="col-md-8 pt-3">
+                            <h6> {% blocktranslate %} Welcome to Never Hot.</h6>
+                            <p style="text-align: justify;">This is a website with a Python / Django backend
+                                where I teach myself and implement concepts of web development. I mainly focus on
+                                backend development and learning frontend development on the go. Therefore this site
+                                will not be as beautiful as could be.</p>
+                            {% endblocktranslate %}
+                        </div>
+                        <div class="col-md-4 align-self-center text-center pt-3">
+                            <img class="img-fluid mx-auto" style="max-width: 200px;"
+                                src="{% static 'images/django-logo-negative.svg' %}" alt="Django logo">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <h1 id="weather">Weather</h1>
+                    </div>
+                    <div class="d-flex p-2 flex-wrap justify-content-evenly">
+                        {% for city in city_list %}
+                        {% with 'images/'|add:city.img_path as image_static %}
+                        <div class="p-2 pt-3">
+                            <div class="img-zoom">
+                                <a href="{% url 'city_detail' city.pk %}"><img class="rounded-circle" style="width: 100px; height: 100px;object-fit: cover;
+                        object-position: center;" src="{% static image_static %}" alt="Berlin">
+                                    <h6 class="img-description">
+                                        {{city.city_name}}
+                                    </h6>
+                                </a>
+                            </div>
+                        </div>
+                        {% endwith %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+
         </div>
-    </div>
+
+
+        <!--- Tryout-->
+
+
+
 </body>
 
 

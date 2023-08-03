@@ -2,11 +2,12 @@
 from django.urls import path, include
 
 
-from .views import HomePageView
+from .views import HomePageView, DemoView
 
 urlpatterns = [
     path("", HomePageView.as_view(), name="home"),
     path("users/", include("django.contrib.auth.urls")),
     path("users/", include("users.urls")),
     path("weather/", include("weather.urls"), name="weather"),
+    path("demo/", DemoView.as_view(), name="demo"),
 ]
