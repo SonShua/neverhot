@@ -1,4 +1,4 @@
-from django.views.generic import ListView, TemplateView
+from django.views.generic import ListView
 from weather.models import City
 
 
@@ -8,7 +8,3 @@ class HomePageView(ListView):
 
     def get_queryset(self):
         return self.model.objects.all()
-
-
-class DemoView(TemplateView):
-    template_name = "demo.html"

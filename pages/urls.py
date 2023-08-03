@@ -9,5 +9,4 @@ urlpatterns = [
     path("users/", include("django.contrib.auth.urls")),
     path("users/", include("users.urls")),
     path("weather/", include("weather.urls"), name="weather"),
-    path("demo/", DemoView.as_view(), name="demo"),
 ]
