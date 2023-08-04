@@ -29,7 +29,9 @@
                             <p style="text-align: justify;">This is a website with a Python / Django backend
                                 where I teach myself and implement concepts of web development. I mainly focus on
                                 backend development and learning frontend development on the go. Therefore this site
-                                will not be as beautiful as could be.</p>
+                                will not be as beautiful as could be. The project is localized and partly translated in
+                                English and German.</p>
+
                             {% endblocktranslate %}
                         </div>
                         <div class="col-md-4 align-self-center text-center pt-3">
@@ -44,6 +46,11 @@
                 <div class="row">
                     <div class="col-12">
                         <h1 id="weather">Weather</h1>
+                    </div>
+                    <div class="d-flex p-2">
+                        <p>This app offers a responsive user interface, providing users with up-to-date weather
+                            information for the provided locations. The weather forecast data is fetched via the
+                            openweathermap.com API and displayed in Chart.js line chart. </p>
                     </div>
                     <div class="d-flex p-2 flex-wrap justify-content-evenly">
                         {% for city in city_list %}
@@ -60,6 +67,16 @@
                         </div>
                         {% endwith %}
                         {% endfor %}
+                        <div class="p-2 pt-3">
+                            <div class="img-zoom">
+                                <a href="#"><img class="rounded-circle" style="width: 100px; height: 100px;object-fit: cover;
+                        object-position: center;" src="{% static 'images\default.jpg' %}" alt="Berlin">
+                                    <p class="img-description" style="white-space: nowrap;">
+                                        Add city?
+                                        <p>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
