@@ -11,14 +11,29 @@ def get_openweathermap_key():
     return api_key
 
 
-def get_geocode(name):
-    # SECRETS
+def get_locations(location_name):
+    """Fetch location details (latidude, longitude, country) matching passed location_name
+    Args:
+        location_name (str): Location (City,Village,etc.)
+
+    Returns:
+        city_list: City objects matching given name
+    """
+    limit_results = 5
     api_key = get_openweathermap_key()
-    url = (
-        f"http://api.openweathermap.org/geo/1.0/direct?q={name}&limit=5&appid={api_key}"
-    )
+    url = f"http://api.openweathermap.org/geo/1.0/direct?q={location_name}&limit={limit_results}&appid={api_key}"
     cities_suggestion = requests.get(url).json()
-    return cities_suggestion
+    i = 0
+    city_list = []
+    for i in range(0, (limit_results - 1)):
+        obj, created = City.objects.get_or_create(
+            city_name=cities_suggestion[i]["name"],
+            lat=cities_suggestion[i]["lat"],
+            lon=cities_suggestion[i]["lon"],
+            country=cities_suggestion[i]["country"],
+        )
+        city_list.append(obj)
+    return city_list
 
 
 def get_weather(lat, lon):
@@ -35,14 +50,19 @@ def get_weather(lat, lon):
     return temp, hum, icon
 
 
-def get_weather_forecast(city_name):
-    """API call to openweathermap to get weather forecast. Creates multiple instances of Weather.
+def get_weather_forecast(city_pk):
+    """API call to openweathermap to get weather forecasts. Create or update (city_pk + datetime).
 
-    city_name (str) -> Name of a city exisiting in model City"""
+    Args:
+        city_pk (int:pk): ID of City object to get forecasts for
+
+    Returns:
+        Empty json object when nothing is found.
+    """
     api_key = get_openweathermap_key()
     weather_forecast = {}
     try:
-        city = City.objects.get(city_name=city_name)
+        city = City.objects.get(id=city_pk)
         url = f"http://api.openweathermap.org/data/2.5/forecast?lat={city.lat}&lon={city.lon}&appid={api_key}"
         weather_forecast = requests.get(url).json()
         # range controls how far the forecast reaches, max is 38 (16 day forecast?)
@@ -54,7 +74,7 @@ def get_weather_forecast(city_name):
                 # %z is the offset to UTC
                 f"%Y-%m-%d %H:%M:%S %z",
             )
-            # Checks db if unique_together city + datetime already exists, if yes we just update, otherwise create
+            # Checks db a forecast for that city + datetime exists. If yes -> update object. If no -> create object.
             Forecast.objects.update_or_create(
                 city=city,
                 datetime=datetime,

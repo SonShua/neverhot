@@ -5,7 +5,7 @@ import requests
 
 
 class City(models.Model):
-    city_name = models.CharField(max_length=500, null=False, blank=False, unique=True)
+    city_name = models.CharField(max_length=500, null=False, blank=False)
     country = models.CharField(max_length=500, null=False, blank=True)
     lat = models.FloatField(null=False, blank=False)
     lon = models.FloatField(null=False, blank=False)
@@ -13,8 +13,12 @@ class City(models.Model):
     hum = models.IntegerField(null=True, blank=True)
     icon = models.CharField(null=False, blank=True, max_length=500)
     img_path = models.CharField(max_length=200, default="default.jpg")
-    # Automatically use datetime from default_timezone when creating/updating
     last_updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=["lat", "lon"], name="unique location")
+        ]
 
     def save(self, *args, **kwargs):
         """Only ran when object is first created
@@ -30,6 +34,7 @@ class City(models.Model):
         """
         Sets temperature and humidity of location defined by lat/lon as tuple. Openweathermap api call.
         """
+        print("allo")
         # SECRETS
         api_key = "ab769f949632a08f7f69a9a014a26d97"
         url = f"https://api.openweathermap.org/data/2.5/weather?lat={self.lat}&lon={self.lon}&appid={api_key}"
@@ -37,6 +42,9 @@ class City(models.Model):
         self.temp = round(city_weather["main"]["temp"] - 273.15, 2)
         self.hum = city_weather["main"]["humidity"]
         self.icon = city_weather["weather"][0]["icon"]
+        # For updating purposes
+        if self.pk:
+            self.save()
 
 
 class Forecast(models.Model):

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+
+
+<div id="main">
+    <div class="container">
+        <div class="search">
+            <form action="{% url 'search' %}" class="form">
+                <input name="q" value="{{ request.GET.q }}" placeholder="Search for a title">
+                </p>
+            </form>
+        </div>
+    </div>
+    <section id="results">
+        {% for location in locations_list %}
+        <p>{{location.city_name}}</p>
+</div>
+{% endfor %}
+
+{% endblock content %}

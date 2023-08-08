@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     # 3rd party
     "crispy_forms",
     "crispy_bootstrap5",
+    "django_htmx",
     "background_task",
     "rosetta",
     # "parler",
@@ -62,6 +63,7 @@ MIDDLEWARE = [
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
+    "django_htmx.middleware.HtmxMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
@@ -130,7 +132,7 @@ TIME_ZONE = "Europe/Berlin"
 
 USE_L10N = True
 
-USE_I18N = True
+USE_I18N = False
 
 USE_TZ = True
 

@@ -1,0 +1,47 @@
+{% load static %}
+
+
+
+<!-- Cards -->
+<div class="d-flex  p-2 flex-wrap justify-content-evenly">
+    {% for city in page.object_list %}
+    {% with 'images/'|add:city.img_path as image_static %}
+    <a href="{% url 'city_detail' city.pk %}">
+        <div class="card mb-3" style="max-width: 270px;">
+            <div class="d-flex p-2 flex-nowrap ">
+                <div class="p-2 pt-3">
+
+                </div>
+                <div class="p-2 pt-3">
+                    <div class="card-body">
+                        <h7 class="card-title">{{city.city_name}}, {{city.country}}</h7>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+    {% endwith %}
+    {% endfor %}
+
+    {% if page %}
+    <div id="load-more">
+        {% if page.has_next %}
+        <div id="load-more">
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="d-flex p-2 flex-wrap ">
+                    <div class="p-2 pt-3">
+                        <div class="card-body">
+                            <button hx-get="{% url 'home' %}" hx-target="#load-more"
+                                hx-vals='{"q": "{{ request.GET.q }}", "page": "{{ page.next_page_number }}"}'
+                                hx-swap="outerHTML">
+                                Load More
+                            </button>
+                            <h5 class="card-title"></h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}

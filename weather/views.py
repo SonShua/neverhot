@@ -42,6 +42,7 @@ class CityDetailView(ListView):
             datetime__gte=datetime.datetime.now(datetime.timezone.utc)
         )
         city_name = City.objects.get(id=self.kwargs["pk"]).city_name
+        city = City.objects.get(id=self.kwargs["pk"])
         # Dataset constructor for line chart
         tz = pytz.timezone("Europe/Berlin")
         temp_data = json.dumps(
@@ -68,6 +69,7 @@ class CityDetailView(ListView):
         context = {
             "temp": temp_data,
             "temp_feel": temp_feel_data,
+            "city": city,
             "city_name": city_name,
             "forecast_list": queryset,
             "temp_trans": temp_trans,
@@ -79,9 +81,8 @@ class CityDetailView(ListView):
         Return a queryset which has at least 27 hours of forecast data in the future
         """
         queryset = self.model.objects.filter(city__id=self.kwargs["pk"])
-        city_name = City.objects.get(id=self.kwargs["pk"]).city_name
         if not queryset:
-            get_weather_forecast(city_name)
+            get_weather_forecast(self.kwargs["pk"])
         # If not last forecast available is at least 27 hours in the future
         # Trigger API call to get new forecasts
         # Check: last forecast available is at least 27 hours in the future
@@ -91,7 +92,7 @@ class CityDetailView(ListView):
         ) + datetime.timedelta(hours=27)
         queryset = self.model.objects.filter(city__id=self.kwargs["pk"])
         if min_future_date_forecast > getattr(queryset.latest("datetime"), "datetime"):
-            get_weather_forecast(city_name)
+            get_weather_forecast(self.kwargs["pk"])
             queryset = self.model.objects.filter(city__id=self.kwargs["pk"])
             if min_future_date_forecast > getattr(
                 queryset.latest("datetime"), "datetime"
