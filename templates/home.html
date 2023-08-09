@@ -17,7 +17,7 @@
     <div id="main">
         <div data-bs-spy="scroll" data-bs-target="#navbar" data-bs-offset="0" class="scrollspy-example" tabindex="0">
 
-            <!-- Home -->
+            <!-- Home heading-->
             <div class="container">
                 <div class="row">
                     <div class="col-12">
@@ -34,6 +34,7 @@
 
                             {% endblocktranslate %}
                         </div>
+                        <!-- Django Logo-->
                         <div class="col-md-4 align-self-center text-center pt-3">
                             <img class="img-fluid mx-auto" style="max-width: 200px;"
                                 src="{% static 'images/django-logo-negative.svg' %}" alt="Django logo">
@@ -42,7 +43,7 @@
                 </div>
             </div>
 
-            <!-- Weather-->
+            <!-- Weather heading-->
             <div class="container">
                 <div class="row">
                     <div class="col-12">
@@ -54,7 +55,7 @@
                             openweathermap.com API and displayed in Chart.js line chart. </p>
                     </div>
                 </div>
-                <!-- Clickable Cities-->
+                <!-- Cities display as round images with hyperlink to city_detail-->
                 <div class="d-flex p-2 flex-wrap justify-content-evenly">
                     {% for city in city_list %}
                     {% with 'images/'|add:city.img_path as image_static %}
@@ -90,6 +91,7 @@
                     </div>
                 </div>
 
+                <!-- Only shown when there is input into the searchbar-->
                 <section id="results">
                     {% include 'partial_results.html' %}
                 </section>
@@ -99,10 +101,6 @@
 
 
         </div>
-
-
-        <!--- Tryout-->
-
 
 
 </body>

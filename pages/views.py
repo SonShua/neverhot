@@ -1,4 +1,5 @@
-from django.views.generic import ListView
+from django.views.generic import ListView, CreateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from weather.models import City
 from weather.utils import get_locations
 from django.shortcuts import render
@@ -6,7 +7,7 @@ from django.http import HttpRequest, HttpResponse
 from django.views.decorators.http import require_GET
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.http import require_POST
-from .forms import OddNumberForm
+from .forms import OddNumberForm, CityNameForm
 from django.core.paginator import Paginator
 
 from django_htmx.middleware import HtmxDetails
@@ -39,19 +40,8 @@ def csrf_demo_checker(request: HtmxHttpRequest) -> HttpResponse:
     )
 
 
-def SearchView(request):
-    search = request.GET.get("q")
-
-    if search:
-        locations = get_locations(search)
-    else:
-        locations = City.objects.none()
-    print(locations)
-    return render(
-        request=request,
-        template_name="search.html",
-        context={"locations_list": locations},
-    )
+def AddCityView(request, *args, **kwargs):
+    pass
 
 
 class HomePageSearchView(ListView):
@@ -61,7 +51,8 @@ class HomePageSearchView(ListView):
     def get_queryset(self):
         return self.model.objects.all()[:5]
 
-    def get(self, request):
+    def get(self, request, *args, **kwargs):
+        """The request has htmx appendix when the search bar is used. The client input is searched in the db and returned in page.object_list"""
         if request.htmx:
             search = request.GET.get("q")
             page_num = request.GET.get("page", 1)
@@ -77,4 +68,4 @@ class HomePageSearchView(ListView):
                 template_name="partial_results.html",
                 context={"page": page},
             )
-        return super().get(request)
+        return super().get(request, *args, **kwargs)
