@@ -1,19 +1,35 @@
 {% extends "base.html" %}
 {% load static %}
 {% load i18n %}
+{% load crispy_forms_tags %}
 
 {% block content %}
 
 
 <div id="main">
     <div class="container">
+        <!-- Search bar that makes API call to openweathermap geocode, retrieves up to 5 matching locations and get_or_create to database-->
         <div class="search">
-            <form hx-post="{% url 'search' %}" hx-target="#results"></form>
+            {% crispy form %}
         </div>
+        <p>
 
-        <section id="results"></section>
+            <!--Newly created objects are displayed here. 
+                Includes a spinner that is triggered by the Submit button of the crispy form. 
+                Locations that were already in Database are not displayed-->
+        <section id="results">
+            <div id="spinner" class="htmx-indicator">
+                <div class="spinner-border" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                {% include 'partial_location_results.html' %}
+        </section>
+        </p>
+
+
+
+
     </div>
 </div>
-{% endfor %}
 
 {% endblock content %}

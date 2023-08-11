@@ -1,14 +1,18 @@
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, FormView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from weather.models import City
 from weather.utils import get_locations
 from django.shortcuts import render
+from django.template.context_processors import csrf
 from django.http import HttpRequest, HttpResponse
 from django.views.decorators.http import require_GET
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.http import require_POST
-from .forms import OddNumberForm, CityNameForm
+from .forms import OddNumberForm, CityForm
 from django.core.paginator import Paginator
+from django.forms import formset_factory
+from crispy_forms.utils import render_crispy_form
+from crispy_forms.templatetags.crispy_forms_filters import as_crispy_field
 
 from django_htmx.middleware import HtmxDetails
 
@@ -17,31 +21,33 @@ class HtmxHttpRequest(HttpRequest):
     htmx: HtmxDetails
 
 
-# htmx
+def search(request):
+    if request.method == "GET":
+        context = {"form": CityForm()}
+        return render(request, "search.html", context)
+
+    elif request.method == "POST":
+        form = CityForm(request.POST)
+        ctx = {}
+        if form.is_valid():
+            city_list = get_locations(form.cleaned_data["city_name"])
+            # ctx = {"city_list": city_list}
+        ctx.update(csrf(request))
+        form_html = render_crispy_form(form, context=ctx)
+        return render(
+            request,
+            "partial_location_results.html",
+            {"form": form_html, "city_list": city_list},
+        )
 
 
-@require_GET
-def csrf_demo(request: HtmxHttpRequest) -> HttpResponse:
-    return render(request, "csrf-demo.html")
-
-
-@require_POST
-def csrf_demo_checker(request: HtmxHttpRequest) -> HttpResponse:
-    form = OddNumberForm(request.POST)
-    if form.is_valid():
-        number = form.cleaned_data["number"]
-        number_is_odd = number % 2 == 1
-    else:
-        number_is_odd = False
-    return render(
-        request,
-        "csrf-demo-checker.html",
-        {"form": form, "number_is_odd": number_is_odd},
-    )
-
-
-def AddCityView(request, *args, **kwargs):
-    pass
+def check_locationname(request):
+    form = CityForm(request.GET)
+    context = {
+        "field": as_crispy_field(form["city_name"]),
+        "valid": not form["city_name"].errors,
+    }
+    return render(request, "partials/field.html", context)
 
 
 class HomePageSearchView(ListView):

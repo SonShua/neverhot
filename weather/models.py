@@ -17,7 +17,9 @@ class City(models.Model):
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=["lat", "lon"], name="unique location")
+            models.UniqueConstraint(
+                fields=["city_name", "lat", "lon"], name="unique location"
+            )
         ]
 
     def save(self, *args, **kwargs):
@@ -34,7 +36,6 @@ class City(models.Model):
         """
         Sets temperature and humidity of location defined by lat/lon as tuple. Openweathermap api call.
         """
-        print("allo")
         # SECRETS
         api_key = "ab769f949632a08f7f69a9a014a26d97"
         url = f"https://api.openweathermap.org/data/2.5/weather?lat={self.lat}&lon={self.lon}&appid={api_key}"

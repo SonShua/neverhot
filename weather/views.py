@@ -23,6 +23,13 @@ class CityView(ListView):
         return self.model.objects.all()
 
 
+def sleep(request):
+    if request.htmx:
+        import time
+
+        time.sleep(10)
+
+
 class CityDetailView(ListView):
     """
     Goal: Display a line graph with the forecast data temperatures
