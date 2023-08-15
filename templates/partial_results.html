@@ -1,8 +1,12 @@
+<!-- partial.results.html-->
 {% load static %}
 
+<!-- 
+    Is included in home.html
+    Displays results of database search for City objects
+-->
 
-
-<!-- Cards -->
+<!-- Results are displayed in Cards -->
 <div class="d-flex  p-2 flex-wrap justify-content-evenly">
     {% for city in page.object_list %}
     {% with 'images/'|add:city.img_path as image_static %}
@@ -23,6 +27,7 @@
     {% endwith %}
     {% endfor %}
 
+    <!-- Paginator if there are more than X results-->
     {% if page %}
     <div id="load-more">
         {% if page.has_next %}

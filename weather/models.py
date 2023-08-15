@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 import requests
 
 # Create your models here.
@@ -46,6 +47,9 @@ class City(models.Model):
         # For updating purposes
         if self.pk:
             self.save()
+
+    def get_absolute_url(self):
+        return reverse("city_detail", kwargs={"pk": self.pk})
 
 
 class Forecast(models.Model):

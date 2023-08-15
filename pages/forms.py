@@ -4,7 +4,7 @@ from django import forms
 from django.urls import reverse_lazy
 from django.core.validators import RegexValidator
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit
+from crispy_forms.layout import Layout, Fieldset, Submit
 
 
 class OddNumberForm(forms.Form):
@@ -16,25 +16,27 @@ class CityForm(forms.Form):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_id = "city-form"
-        self.helper.add_input(Submit("submit", "Submit"))
         self.helper.attrs = {
             "hx-post": reverse_lazy("search"),
-            # Target is the HTML element that is to be swapped
-            "hx-target": "#results",
-            # OuterHTML swap would swap out the target section, producing a target error after first POST
-            "hx-swap": "innerHTML",
-            # Activates the div id spinner while data is being fetched
-            "hx-indicator": "#spinner",
+            "hx-target": "#results",  # div where the POST results are displayed
+            "hx-swap": "innerHTML",  # inner swap so the POST is repeatable
+            "hx-indicator": "#spinner",  # display the spinner waiting for response
         }
+        self.helper.layout = Layout(
+            Fieldset(
+                "Which location are you missing {{user.username}}",
+                "city_name",
+            ),
+            self.helper.add_input(Submit("submit", "Search")),
+        )
 
     city_name = forms.CharField(
         max_length=50,
         widget=forms.TextInput(
             attrs={
-                # Dynamic GET of user input and validation on the go
                 "hx-get": reverse_lazy("check_locationname"),
                 "hx-target": "#div_id_city_name",
-                "hx-trigger": "keyup[target.value.length > 2]",
+                "hx-trigger": "keyup changed",
             }
         ),
     )

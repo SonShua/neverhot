@@ -12,18 +12,21 @@ def get_openweathermap_key():
 
 
 def get_locations(location_name):
-    """Make API call to openweathermap geocode. Fetch location details (latidude, longitude, country) matching passed location_name.
+    """Make API call to openweathermap geocode. Fetch location details (latidude, longitude, country) matching location_name.
+    get_or_create object in database-
     Args:
         location_name (str): Location (City,Village,etc.)
 
     Returns:
-        city_list: City objects matching given name that were not in DB.
+        city_created_list: Novel city objects created from API data
+        city_get_list: Existing city objects matching API data.
     """
     limit_results = 5
     api_key = get_openweathermap_key()
     url = f"http://api.openweathermap.org/geo/1.0/direct?q={location_name}&limit={limit_results}&appid={api_key}"
     cities_suggestion = requests.get(url).json()
-    city_list = []
+    city_created_list = []
+    city_get_list = []
     for city in cities_suggestion:
         city_obj, created = City.objects.get_or_create(
             city_name=city["name"],
@@ -31,18 +34,11 @@ def get_locations(location_name):
             lon=city["lon"],
             country=city["country"],
         )
-        # Return the new created
         if created:
-            city_list.append(city_obj)
-    # for i in range(0, (limit_results - 1)):
-    #     city = {
-    #         "city_name": cities_suggestion[i]["name"],
-    #         "lat": cities_suggestion[i]["lat"],
-    #         "lon": cities_suggestion[i]["lon"],
-    #         "country": cities_suggestion[i]["country"],
-    #     }
-    #     city_list.append(city)
-    return city_list
+            city_created_list.append(city_obj)
+        else:
+            city_get_list.append(city_obj)
+    return city_created_list, city_get_list
 
 
 def get_weather(lat, lon):

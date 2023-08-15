@@ -1,5 +1,36 @@
-{% for city in city_list %}
-<p>
-<h6>{{city.city_name}},{{city.country}} added</h6>
-</p>
-{% endfor %}
+<!-- New city objects created in database matching search-->
+
+<div class="d-flex pt-4 flex-column flex-wrap ">
+    {% if city_created_list %}
+    {% for city in city_created_list %}
+    <div class="alert alert-success d-flex align-items-center alert-dismissible fade show" role="alert">
+        <strong><a href="{% url 'city_detail' city.pk %}">{{city.city_name}}, {{city.country}}</a>.
+            {{city.lat|floatformat:4}}° {{city.lon | floatformat:4}}° added
+            successfully.</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </button>
+    </div>
+    {% endfor %}
+
+    <!-- Cities matching search that were already in database-->
+    {% elif city_get_list %}
+    {% for city in city_get_list %}
+    <div class="alert alert-warning d-flex align-items-center alert-dismissible fade show" role="alert">
+        <strong><a href="{% url 'city_detail' city.pk %}">{{city.city_name}}, {{city.country}}</a>.
+            {{city.lat|floatformat:4}}° {{city.lon | floatformat:4}}° already in database.</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </button>
+    </div>
+    {% endfor %}
+
+    <!-- When nothing is found -->
+    {% elif nothing_found %}
+    <div class="alert alert-info d-flex align-items-center alert-dismissible fade show" role="alert">
+        <strong> Nothing found</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </button>
+    </div>
+
+    {% endif %}
+
+</div>
