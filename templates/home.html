@@ -16,12 +16,12 @@
 <body>
     <div id="main">
         <div data-bs-spy="scroll" data-bs-target="#navbar" data-bs-offset="0" class="scrollspy-example" tabindex="0">
-            <!-- weather -->
 
+            <!-- Home heading-->
             <div class="container">
                 <div class="row">
                     <div class="col-12">
-                        <h1 id="home">Home</h1>
+                        <h3 id="home">Home</h3>
                     </div>
                     <div class="d-flex p-2 flex-wrap justify-content-evenly">
                         <div class="col-md-8 pt-3">
@@ -34,6 +34,7 @@
 
                             {% endblocktranslate %}
                         </div>
+                        <!-- Django Logo-->
                         <div class="col-md-4 align-self-center text-center pt-3">
                             <img class="img-fluid mx-auto" style="max-width: 200px;"
                                 src="{% static 'images/django-logo-negative.svg' %}" alt="Django logo">
@@ -42,51 +43,67 @@
                 </div>
             </div>
 
+            <!-- Weather heading-->
             <div class="container">
                 <div class="row">
                     <div class="col-12">
-                        <h1 id="weather">Weather</h1>
+                        <h3 id="weather">Weather</h3>
                     </div>
                     <div class="d-flex p-2">
                         <p>This app offers a responsive user interface, providing users with up-to-date weather
                             information for the provided locations. The weather forecast data is fetched via the
                             openweathermap.com API and displayed in Chart.js line chart. </p>
                     </div>
-                    <div class="d-flex p-2 flex-wrap justify-content-evenly">
-                        {% for city in city_list %}
-                        {% with 'images/'|add:city.img_path as image_static %}
-                        <div class="p-2 pt-3">
-                            <div class="img-zoom">
-                                <a href="{% url 'city_detail' city.pk %}"><img class="rounded-circle" style="width: 100px; height: 100px;object-fit: cover;
+                </div>
+
+                <!-- Display of first five cities that are in database and have pictures. 
+                    Cities are displayed as round images with a hover zoom revealing the name-->
+                <div class="d-flex p-2 flex-wrap justify-content-evenly">
+                    {% for city in city_list %}
+                    {% with 'images/'|add:city.img_path as image_static %}
+                    <div class="p-2 pt-3">
+                        <div class="img-zoom">
+                            <a href="{% url 'city_detail' city.pk %}"><img class="rounded-circle" style="width: 100px; height: 100px;object-fit: cover;
                         object-position: center;" src="{% static image_static %}" alt="Berlin">
-                                    <h6 class="img-description">
-                                        {{city.city_name}}
-                                    </h6>
-                                </a>
-                            </div>
+                                <h6 class="img-description">
+                                    {{city.city_name}}
+                                </h6>
+                            </a>
                         </div>
-                        {% endwith %}
-                        {% endfor %}
-                        <div class="p-2 pt-3">
-                            <div class="img-zoom">
-                                <a href="#"><img class="rounded-circle" style="width: 100px; height: 100px;object-fit: cover;
-                        object-position: center;" src="{% static 'images\default.jpg' %}" alt="Berlin">
-                                    <p class="img-description" style="white-space: nowrap;">
-                                        Add city?
-                                        <p>
-                                </a>
-                            </div>
+                    </div>
+                    {% endwith %}
+                    {% endfor %}
+
+                    <!-- Link for adding a city -->
+                    <div class="p-2 pt-3">
+                        <div class="img-zoom">
+                            <a href="{% url 'search' %}"><img class="rounded-circle" style="width: 100px; height: 100px;
+                        object-position: center;" src="{% static 'images/default.svg' %}" alt="Berlin">
+                                <p class="img-description" style="white-space: nowrap;">
+                                    Add city?
+                                    <p>
+                            </a>
                         </div>
                     </div>
                 </div>
+                <!-- Asycn Search Bar : Cities that are in Database-->
+                <div class="d-flex pt-5 flex-wrap justify-content-center">
+                    <div class="search">
+                        <input name="q" placeholder="Search for a location" hx-get="{% url 'home' %}"
+                            hx-target="#results" hx-trigger="input delay:1s">
+                    </div>
+                </div>
+
+                <!-- Results of the Async search bar are swapped into here-->
+                <section id="results">
+                    {% include 'partial_results.html' %}
+                </section>
+
+
             </div>
 
 
         </div>
-
-
-        <!--- Tryout-->
-
 
 
 </body>

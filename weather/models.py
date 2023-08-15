@@ -1,11 +1,12 @@
 from django.db import models
+from django.urls import reverse
 import requests
 
 # Create your models here.
 
 
 class City(models.Model):
-    city_name = models.CharField(max_length=500, null=False, blank=False, unique=True)
+    city_name = models.CharField(max_length=500, null=False, blank=False)
     country = models.CharField(max_length=500, null=False, blank=True)
     lat = models.FloatField(null=False, blank=False)
     lon = models.FloatField(null=False, blank=False)
@@ -13,8 +14,14 @@ class City(models.Model):
     hum = models.IntegerField(null=True, blank=True)
     icon = models.CharField(null=False, blank=True, max_length=500)
     img_path = models.CharField(max_length=200, default="default.jpg")
-    # Automatically use datetime from default_timezone when creating/updating
     last_updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["city_name", "lat", "lon"], name="unique location"
+            )
+        ]
 
     def save(self, *args, **kwargs):
         """Only ran when object is first created
@@ -37,6 +44,12 @@ class City(models.Model):
         self.temp = round(city_weather["main"]["temp"] - 273.15, 2)
         self.hum = city_weather["main"]["humidity"]
         self.icon = city_weather["weather"][0]["icon"]
+        # For updating purposes
+        if self.pk:
+            self.save()
+
+    def get_absolute_url(self):
+        return reverse("city_detail", kwargs={"pk": self.pk})
 
 
 class Forecast(models.Model):

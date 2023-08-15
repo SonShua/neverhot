@@ -34,7 +34,7 @@ SECRET_KEY = env.str("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DEBUG", default=False)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["testserver", "127.0.0.1"]
 
 
 # Application definition
@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     # 3rd party
     "crispy_forms",
     "crispy_bootstrap5",
+    "django_htmx",
     "background_task",
     "rosetta",
     # "parler",
@@ -62,6 +63,7 @@ MIDDLEWARE = [
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
+    "django_htmx.middleware.HtmxMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
@@ -131,7 +133,6 @@ TIME_ZONE = "Europe/Berlin"
 USE_L10N = True
 
 USE_I18N = True
-
 USE_TZ = True
 
 LANGUAGES = [
