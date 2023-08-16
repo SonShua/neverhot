@@ -17,7 +17,7 @@ class CityForm(forms.Form):
         self.helper = FormHelper(self)
         self.helper.form_id = "city-form"
         self.helper.attrs = {
-            "hx-post": reverse_lazy("search"),
+            "hx-post": reverse_lazy("add_city"),
             "hx-target": "#results",  # div where the POST results are displayed
             "hx-swap": "innerHTML",  # inner swap so the POST is repeatable
             "hx-indicator": "#spinner",  # display the spinner waiting for response
@@ -36,7 +36,7 @@ class CityForm(forms.Form):
             attrs={
                 "hx-get": reverse_lazy("check_locationname"),
                 "hx-target": "#div_id_city_name",
-                "hx-trigger": "keyup changed",
+                "hx-trigger": "keyup[target.value.length > 3]",
             }
         ),
     )

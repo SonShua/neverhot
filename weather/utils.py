@@ -2,6 +2,7 @@ from .models import City, Forecast
 import requests
 import datetime as dt
 import environ
+import ratelimit
 
 
 def get_openweathermap_key():
@@ -11,7 +12,8 @@ def get_openweathermap_key():
     return api_key
 
 
-def get_locations(location_name):
+@ratelimit.decorate(key="ip", rate="5/m")
+def get_locations(request, location_name):
     """Make API call to openweathermap geocode. Fetch location details (latidude, longitude, country) matching location_name.
     get_or_create object in database-
     Args:
@@ -21,10 +23,25 @@ def get_locations(location_name):
         city_created_list: Novel city objects created from API data
         city_get_list: Existing city objects matching API data.
     """
-    limit_results = 5
+    request_limit = getattr(request.ratelimit, "request_limit")
+    search_limit_results = 5
     api_key = get_openweathermap_key()
-    url = f"http://api.openweathermap.org/geo/1.0/direct?q={location_name}&limit={limit_results}&appid={api_key}"
-    cities_suggestion = requests.get(url).json()
+    url = f"http://api.openweathermap.org/geo/1.0/direct?q={location_name}&limit={search_limit_results}&appid={api_key}"
+    city_created_list = []
+    city_get_list = []
+    nothing_found = False
+    limit = True
+    if request_limit == 0:
+        limit = False
+        cities_suggestion = requests.get(url).json()
+        nothing_found = True
+        if cities_suggestion:
+            city_created_list, city_get_list = add_locations_to_db(cities_suggestion)
+            nothing_found = False
+    return (city_created_list, city_get_list, nothing_found, limit)
+
+
+def add_locations_to_db(cities_suggestion):
     city_created_list = []
     city_get_list = []
     for city in cities_suggestion:
@@ -38,7 +55,10 @@ def get_locations(location_name):
             city_created_list.append(city_obj)
         else:
             city_get_list.append(city_obj)
-    return city_created_list, city_get_list
+    return (
+        city_created_list,
+        city_get_list,
+    )
 
 
 def get_weather(lat, lon):

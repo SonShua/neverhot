@@ -31,6 +31,13 @@
         </button>
     </div>
 
+    {% elif limit %}
+    <div class="alert alert-info d-flex align-items-center alert-dismissible fade show" role="alert">
+        <strong> Please wait some time before making a new request.</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </button>
+    </div>
+
     {% endif %}
 
 </div>
