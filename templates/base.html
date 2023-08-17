@@ -41,11 +41,18 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="#weather">Weather</a>
                                 </li>
+
+                                <!-- Language switch-->
+
                             </ul>
+
+
+
                             <!-- User section  -->
+
                             {% if user.is_authenticated %}
                             <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button"
+                                <button class="btn btn-secondary btn-sm dropdown-toggle" type="button"
                                     data-bs-toggle="dropdown" aria-expanded="false">
                                     {{user.username}}
                                 </button>
@@ -59,6 +66,20 @@
                             <a class="btn btn-primary btn-sm me-1" href="{% url 'login' %}" role="button">Log In</a>
                             <a class="btn btn-secondary btn-sm" href="{% url 'signup' %}" role="button">Sign Up</a>
                             {% endif %}
+                            {% get_current_language as CURRENT_LANGUAGE %}
+                            {% get_available_languages as AVAILABLE_LANGUAGES %}
+                            {% get_language_info_list for AVAILABLE_LANGUAGES as languages %}
+
+                            <div class="nav-item dropdown px-1">
+                                <button class="btn btn-light btn-sm dropdown-toggle" type="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    Language</button>
+                                <ul class="dropdown-menu dropdown-menu-light">
+                                    {% for language in languages %}
+                                    <li><a class="dropdown-item" href="/{{ language.code }}/">
+                                            {{ language.name_local}}</a></li>{% endfor %}
+                                </ul>
+                            </div>
                         </div>
                     </div>
             </div>
