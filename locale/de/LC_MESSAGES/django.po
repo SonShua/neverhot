@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-28 14:16+0200\n"
-"PO-Revision-Date: 2023-07-28 14:16+0200\n"
+"POT-Creation-Date: 2023-08-17 11:41+0200\n"
+"PO-Revision-Date: 2023-08-17 11:44+0200\n"
 "Last-Translator:   <>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -19,54 +19,127 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Translated-Using: django-rosetta 0.9.9\n"
 
-#: .\django_project\settings.py:130
+#: .\django_project\settings.py:139
 msgid "German"
 msgstr "Deutsch"
 
-#: .\django_project\settings.py:131
+#: .\django_project\settings.py:140
 msgid "English"
 msgstr "Englisch"
 
-#: .\templates\city_detail.html:8
-msgid " Weather in"
-msgstr "Weather in"
+#: .\templates\add_city.html:15
+msgid "Add a city to the database"
+msgstr "Füge eine Stadt hinzu"
 
-#: .\templates\city_detail.html:25 .\templates\weather.html:24
+#: .\templates\base.html:42 .\templates\home.html:52
+msgid "Weather"
+msgstr "Wetter"
+
+#: .\templates\base.html:69
+msgid "Sign Up"
+msgstr "Registrieren"
+
+#: .\templates\base.html:78
+msgid "Language"
+msgstr "Sprache"
+
+#: .\templates\city_detail.html:27 .\templates\weather.html:26
 msgid "Humidity"
 msgstr "rel. Luftfeuchtigkeit"
 
-#: .\templates\city_detail.html:30
+#: .\templates\city_detail.html:32
 msgid "Wind speed"
 msgstr "Wind Geschwindigkeit"
 
-#: .\templates\home.html:19
-msgid "Hi! Welcome to my page"
-msgstr "Hi! Willkommen auf meiner Seite"
+#: .\templates\home.html:28
+msgid "Welcome to Never Hot."
+msgstr "Willkommen zu Never Hot."
 
-#: .\templates\home.html:20
+#: .\templates\home.html:30
 msgid ""
-" I'm Josh and teaching myself web development and this is a Python/Django\n"
-"                    powered website where\n"
-"                    I implement backend and frontend concepts to learn. I've built a weather fetcher\n"
-"                    app which I'll expand on to build a clothing recommendation based on the weather data.\n"
-"                    "
+"\n"
+"                                This is a website with a Python / Django backend\n"
+"                                where I teach myself and implement concepts of web development. I mainly focus on\n"
+"                                backend development and learning frontend development on the go. Therefore this site\n"
+"                                will not be as beautiful as could be. The project is localized and partly translated in\n"
+"                                English and German.\n"
+"                                "
 msgstr ""
-"Ich bin Josh und ich bringe mir Anwendungsentwicklung bei. Das hier ist eine"
-" Python/Django Website, wo ich Backend und Frontend Konzepte anwende zum "
-"lernen. Ich habe eine Wetter App gebaut die ich um eine Kleidungs Empfehlung"
-" App basierend auf den Wetterdaten erweitern möchte."
+"\n"
+"Dies ist eine Python / Django backend Website durch die ich mir Webentwicklungs Konzepte beibringe und implementiere. Ich fokussiere mich derzeit auf Backend Entwicklung und lerne Front-End on the go. Daher ist die Seite nicht so schön wie sein könnte mit einem Front-End Framework. Das Projekt ist lokalisiert und und übersetzt in Deutsch und Englisch."
 
-#: .\templates\weather.html:12
-msgid "Stay prepared with our Weather App!"
-msgstr "Bleibe ein Schritt voraus mit der Wetter App."
+#: .\templates\home.html:56
+#| msgid ""
+#| "\n"
+#| "                            This app offers a responsive user interface, providing users with up-to-date weather\n"
+#| "                            information for the provided locations. The weather forecast data is fetched via the\n"
+#| "                            openweathermap.com API and displayed in Chart.js line chart.\n"
+#| "                            "
+msgid ""
+"\n"
+"                            This app offers a responsive user interface, providing users with up-to-date weather\n"
+"                            information. The weather forecast data is fetched via the\n"
+"                            openweathermap.com API and displayed in Chart.js line chart.\n"
+"                            "
+msgstr ""
+"\n"
+"Die App bietet ein responsive Interface das Nutzer mit aktuellen Wetter Daten versorgt. Die Daten der Wettervorhersage entstammen der API von openweathermap.com und werden in einem Chart.js Liniengraph dargestellt."
 
-#: .\templates\weather.html:28
+#: .\templates\home.html:89
+msgid "Add city?"
+msgstr "Stadt hinzufügen?"
+
+#: .\templates\partials\partial_location_results.html:8
+msgid "added successfully."
+msgstr "hinzugefügt."
+
+#: .\templates\partials\partial_location_results.html:19
+msgid "already in database."
+msgstr "bereits vorhanden."
+
+#: .\templates\partials\partial_location_results.html:28
+msgid " Nothing found."
+msgstr "Suche hat nichts gefunden."
+
+#: .\templates\partials\partial_location_results.html:35
+msgid " Please wait some time before making a new request. "
+msgstr "Bitte warte ein wenig bevor du eine neue Anfrage startest."
+
+#: .\templates\partials\partial_results.html:31
+#: .\templates\partials\partial_results.html:35
+msgid "Previous"
+msgstr "Vorherige"
+
+#: .\templates\partials\partial_results.html:38
+#: .\templates\partials\partial_results.html:43
+msgid "Next"
+msgstr "Nächste"
+
+#: .\templates\weather.html:30
 msgid "Last updated:"
 msgstr "Zuletzt aktualisiert:"
 
-#: .\weather\views.py:65
+#: .\weather\views.py:75
 msgid "Temperature [°C]"
 msgstr "Temperatur [°C]"
+
+#~ msgid "Hi! Welcome to my page"
+#~ msgstr "Hi! Willkommen auf meiner Seite"
+
+#~ msgid ""
+#~ " I'm Josh and teaching myself web development and this is a Python/Django\n"
+#~ "                    powered website where\n"
+#~ "                    I implement backend and frontend concepts to learn. I've built a weather fetcher\n"
+#~ "                    app which I'll expand on to build a clothing recommendation based on the weather data.\n"
+#~ "                    "
+#~ msgstr ""
+#~ "Ich bin Josh und ich bringe mir Anwendungsentwicklung bei. Das hier ist eine"
+#~ " Python/Django Website, wo ich Backend und Frontend Konzepte anwende zum "
+#~ "lernen. Ich habe eine Wetter App gebaut die ich um eine Kleidungs Empfehlung"
+#~ " App basierend auf den Wetterdaten erweitern möchte."
+
+#~ msgid "Stay prepared with our Weather App!"
+#~ msgstr "Bleibe ein Schritt voraus mit der Wetter App."
 
 #~ msgid "rel. Luftfeuchtigkeit"
 #~ msgstr "Humidity"

@@ -39,10 +39,9 @@
                                     <a class="nav-link active" aria-current="page" href="#home">Home</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#weather">Weather</a>
+                                    <a class="nav-link" href="#weather">{% trans "Weather" %}</a>
                                 </li>
 
-                                <!-- Language switch-->
 
                             </ul>
 
@@ -57,15 +56,19 @@
                                     {{user.username}}
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="{% url 'password_change' %}">Change Password</a>
+                                    <li><a class="dropdown-item" href="{% url 'password_change' %}">{% trans "Change
+                                            Password" %}</a>
                                     </li>
                                     <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
                                 </ul>
                             </div>
                             {% else %}
                             <a class="btn btn-primary btn-sm me-1" href="{% url 'login' %}" role="button">Log In</a>
-                            <a class="btn btn-secondary btn-sm" href="{% url 'signup' %}" role="button">Sign Up</a>
+                            <a class="btn btn-secondary btn-sm" href="{% url 'signup' %}" role="button">
+                                {% trans "Sign Up" %}</a>
                             {% endif %}
+
+                            <!-- Language switch-->
                             {% get_current_language as CURRENT_LANGUAGE %}
                             {% get_available_languages as AVAILABLE_LANGUAGES %}
                             {% get_language_info_list for AVAILABLE_LANGUAGES as languages %}
@@ -73,7 +76,7 @@
                             <div class="nav-item dropdown px-1">
                                 <button class="btn btn-light btn-sm dropdown-toggle" type="button"
                                     data-bs-toggle="dropdown" aria-expanded="false">
-                                    Language</button>
+                                    {% trans "Language" %}</button>
                                 <ul class="dropdown-menu dropdown-menu-light">
                                     {% for language in languages %}
                                     <li><a class="dropdown-item" href="/{{ language.code }}/">

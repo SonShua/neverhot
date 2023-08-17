@@ -1,13 +1,17 @@
 {% extends "base.html" %}
 {% load i18n %}
-
-
+{% load tz %}
 
 {% block content %}
+{{tz}}
 <div id="weather-detail">
     <div class="icon-container">
-        <span class="violet-text">{% now "d.m.y G:i"%}</span>
-        <h2 class="start">{{city.city_name}}, {{city.country}}</h1>
+        <div hx-get="{% url 'city_detail' city.pk %}" , hx-trigger="load, every 55s">
+            {% include "partials/time.html" %}
+        </div>
+        <h2 class="start">{{city.city_name}}, {{city.country}}, {{city.lat}}, {{city.lon}}</h2>
+
+
     </div>
 
     <div class="icon-container">
@@ -37,11 +41,10 @@
 
     <div class="chart-container-main">
         <div class="chart-container-1">
-            <canvas id="myChart"></canvas>
+            <canvas id="TempChart"></canvas>
             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-            <script
-                src=" https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js "></script>
-            <script src=" https://cdn.jsdelivr.net/npm/date-fns@2.30.0/index.min.js "></script>
+            <script src="https://cdn.jsdelivr.net/npm/luxon@^2"></script>
+            <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@^1"></script>
             <script src=" https://cdn.jsdelivr.net/npm/html-escape@2.0.0/index.min.js "></script>
             <script src=" https://cdn.jsdelivr.net/npm/parse-json@7.0.0/index.min.js "></script>
             <script src="{% url 'javascript-catalog' %}"></script>
@@ -54,10 +57,11 @@
         var obj = JSON.parse(test_data);
         var temp_trans = '{{temp_trans}}'
         var temp_feel_parsed = JSON.parse(temp_feel_load);
+        var language = '{{ language}}';
     </script>
 
     <script>
-        const ctx = document.getElementById('myChart');
+        const ctx = document.getElementById('TempChart');
         let chart = new Chart(ctx, {
             type: 'line',
             data: {
@@ -70,13 +74,29 @@
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                plugins: {
+                    tooltip: {
+                        titleColor: 'rgb(215, 14, 215)',
+                        callbacks: {
+                            title: context => {
+                                console.log(context[0].raw.x);
+                            }
+                        }
+                    }
+
+                },
                 scales: {
                     x: {
                         type: 'time',
                         time: {
                             unit: 'hour',
                             unitStepSize: 3,
-                            displayFormats: { hour: 'HH:mm' }
+
+
+                            displayFormats: {
+                                'hour': 'HH:mm',
+
+                            }
                         },
                         title: {
                             //display: true,
@@ -85,13 +105,18 @@
                         ticks: {
                             maxRotation: 0,
                             autoSkipPadding: 10
-                        }
+                        },
+                        adapters: {
+                            date: {
+                                zone: '{{tz}}',
+                            }
+                        },
 
                     },
                     y: {
                         title: {
                             display: true,
-                            text: temp_trans
+                            text: temp_trans,
                         }
                     }
                 }

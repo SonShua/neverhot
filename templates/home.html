@@ -25,14 +25,16 @@
                     </div>
                     <div class="d-flex p-2 flex-wrap justify-content-evenly">
                         <div class="col-md-8 pt-3">
-                            <h6> {% blocktranslate %} Welcome to Never Hot.</h6>
-                            <p style="text-align: justify;">This is a website with a Python / Django backend
+                            <h6> {% trans "Welcome to Never Hot." %} </h6>
+                            <p style="text-align: justify;">
+                                {% blocktranslate %}
+                                This is a website with a Python / Django backend
                                 where I teach myself and implement concepts of web development. I mainly focus on
                                 backend development and learning frontend development on the go. Therefore this site
                                 will not be as beautiful as could be. The project is localized and partly translated in
-                                English and German.</p>
-
-                            {% endblocktranslate %}
+                                English and German.
+                                {% endblocktranslate %}
+                            </p>
                         </div>
                         <!-- Django Logo-->
                         <div class="col-md-4 align-self-center text-center pt-3">
@@ -47,12 +49,16 @@
             <div class="container">
                 <div class="row">
                     <div class="col-12">
-                        <h3 id="weather">Weather</h3>
+                        <h3 id="weather">{% trans "Weather" %}</h3>
                     </div>
                     <div class="d-flex p-2">
-                        <p>This app offers a responsive user interface, providing users with up-to-date weather
-                            information for the provided locations. The weather forecast data is fetched via the
-                            openweathermap.com API and displayed in Chart.js line chart. </p>
+                        <p>
+                            {% blocktranslate %}
+                            This app offers a responsive user interface, providing users with up-to-date weather
+                            information. The weather forecast data is fetched via the
+                            openweathermap.com API and displayed in Chart.js line chart.
+                            {% endblocktranslate %}
+                        </p>
                     </div>
                 </div>
 
@@ -80,7 +86,7 @@
                             <a href="{% url 'add_city' %}"><img class="rounded-circle" style="width: 100px; height: 100px;
                         object-position: center;" src="{% static 'images/default.svg' %}" alt="Berlin">
                                 <p class="img-description" style="white-space: nowrap;">
-                                    Add city?
+                                    {% trans "Add city?" %}
                                     <p>
                             </a>
                         </div>
@@ -89,7 +95,7 @@
                 <!-- Asycn Search Bar : Cities that are in Database-->
                 <div class="d-flex pt-5 flex-wrap justify-content-center">
                     <div class="search">
-                        <input name="q" placeholder="Search for a location" hx-get="{% url 'home' %}"
+                        <input name="q" placeholder="{% trans 'Search for a location' %}" hx-get="{% url 'home' %}"
                             hx-target="#results" hx-trigger="load, input delay:1s">
                     </div>
                 </div>
