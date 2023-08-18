@@ -2,13 +2,14 @@ from typing import Any, Dict
 from django.db import models
 from django.db.models.query import QuerySet
 from django.views.generic import ListView, DetailView
-from django.http import Http404, JsonResponse
+from django.http import Http404, HttpRequest, HttpResponse, JsonResponse
 from .models import City, Forecast
 from django.shortcuts import render, redirect
 from .forms import InputForm
 from django.utils.translation import gettext_lazy as _
 from .utils import get_weather_forecast
 from weather.tasks import schedulded_update_weather
+from timezonefinder import TimezoneFinder
 import datetime, pytz, json
 import environ
 import os
@@ -50,8 +51,10 @@ class CityDetailView(ListView):
         )
         city_name = City.objects.get(id=self.kwargs["pk"]).city_name
         city = City.objects.get(id=self.kwargs["pk"])
+        tf = TimezoneFinder()
         # Dataset constructor for line chart
-        tz = pytz.timezone("Europe/Berlin")
+        tz = pytz.timezone(tf.timezone_at(lng=city.lon, lat=city.lat))
+        time_city = datetime.datetime.now(tz=tz)
         temp_data = json.dumps(
             [
                 dict(
@@ -80,8 +83,23 @@ class CityDetailView(ListView):
             "city_name": city_name,
             "forecast_list": queryset,
             "temp_trans": temp_trans,
+            "time_city": time_city.strftime("%H:%M:%S"),
+            "tz": str(tz),
         }
         return context
+
+    def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
+        if self.request.htmx:
+            city = City.objects.get(id=self.kwargs["pk"])
+            tf = TimezoneFinder()
+            tz = pytz.timezone(tf.timezone_at(lng=city.lon, lat=city.lat))
+            time_city = datetime.datetime.now(tz=tz)
+            return render(
+                self.request,
+                "partials/time.html",
+                {"time": time_city.strftime("%H:%M")},
+            )
+        return super().get(request, *args, **kwargs)
 
     def get_queryset(self):
         """

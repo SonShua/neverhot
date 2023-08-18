@@ -1,12 +1,12 @@
-<!-- New city objects created in database matching search-->
+{% load i18n %}
 
+<!-- New city objects created in database matching search-->
 <div class="d-flex pt-4 flex-column flex-wrap ">
     {% if city_created_list %}
     {% for city in city_created_list %}
     <div class="alert alert-success d-flex align-items-center alert-dismissible fade show" role="alert">
         <strong><a href="{% url 'city_detail' city.pk %}">{{city.city_name}}, {{city.country}}</a>.
-            {{city.lat|floatformat:4}}° {{city.lon | floatformat:4}}° added
-            successfully.</strong>
+            {{city.lat|floatformat:4}}° {{city.lon | floatformat:4}}° {% trans "added successfully."%}</strong>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </button>
     </div>
@@ -17,7 +17,7 @@
     {% for city in city_get_list %}
     <div class="alert alert-warning d-flex align-items-center alert-dismissible fade show" role="alert">
         <strong><a href="{% url 'city_detail' city.pk %}">{{city.city_name}}, {{city.country}}</a>.
-            {{city.lat|floatformat:4}}° {{city.lon | floatformat:4}}° already in database.</strong>
+            {{city.lat|floatformat:4}}° {{city.lon | floatformat:4}}° {% trans "already in database."%}</strong>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </button>
     </div>
@@ -26,14 +26,14 @@
     <!-- When nothing is found -->
     {% elif nothing_found %}
     <div class="alert alert-info d-flex align-items-center alert-dismissible fade show" role="alert">
-        <strong> Nothing found</strong>
+        <strong> {% trans " Nothing found."%}</strong>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </button>
     </div>
 
     {% elif limit %}
     <div class="alert alert-info d-flex align-items-center alert-dismissible fade show" role="alert">
-        <strong> Please wait some time before making a new request.</strong>
+        <strong> {% trans " Please wait some time before making a new request. "%}</strong>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </button>
     </div>

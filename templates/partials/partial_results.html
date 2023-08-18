@@ -1,5 +1,6 @@
 <!-- partial.results.html-->
 {% load static %}
+{% load i18n %}
 
 <!-- 
     Is included in home.html
@@ -27,19 +28,19 @@
                 <button type="button" class="btn btn-light btn-sm" hx-get="{% url 'home' %}" hx-target="#results"
                     hx-vals='{"q": "{{ request.GET.q }}", "page": "{{ page.previous_page_number }}"}'
                     hx-swap="innerHTML">
-                    Previous
+                    {% trans "Previous" %}
                 </button>
                 {% endif %}
                 {% if not page.has_previous %}
-                <button type="button" class="btn btn-light btn-sm" disabled>Previous</button>
+                <button type="button" class="btn btn-light btn-sm" disabled>{% trans "Previous" %}</button>
                 {% endif %}
                 {% if not page.has_next %}
-                <button type="button" class="btn btn-light btn-sm" disabled>Next</button>
+                <button type="button" class="btn btn-light btn-sm" disabled>{% trans "Next" %}</button>
                 {% endif %}
                 {% if page.has_next %}
                 <button type="button" class="btn btn-light btn-sm" hx-get="{% url 'home' %}" hx-target="#results"
                     hx-vals='{"q": "{{ request.GET.q }}", "page": "{{ page.next_page_number }}"}' hx-swap="innerHTML">
-                    Next
+                    {% trans "Next" %}
                 </button>
 
             </div>
