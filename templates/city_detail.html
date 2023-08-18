@@ -3,15 +3,12 @@
 {% load tz %}
 
 {% block content %}
-{{tz}}
 <div id="weather-detail">
     <div class="icon-container">
         <div hx-get="{% url 'city_detail' city.pk %}" , hx-trigger="load, every 55s">
             {% include "partials/time.html" %}
         </div>
-        <h2 class="start">{{city.city_name}}, {{city.country}}, {{city.lat}}, {{city.lon}}</h2>
-
-
+        <h2 class="start">{{city.city_name}}, {{city.country}}</h2>
     </div>
 
     <div class="icon-container">
@@ -39,6 +36,8 @@
         </div>
     </div>
 
+
+    <!-- Charts scripts and canvas-->
     <div class="chart-container-main">
         <div class="chart-container-1">
             <canvas id="TempChart"></canvas>
@@ -51,13 +50,13 @@
         </div>
     </div>
 
+    <!-- Line graph-->
     <script type="text/javascript">
         var test_data = '{{ temp |safe}}';
         var temp_feel_load = '{{ temp_feel |safe}}';
         var obj = JSON.parse(test_data);
         var temp_trans = '{{temp_trans}}'
         var temp_feel_parsed = JSON.parse(temp_feel_load);
-        var language = '{{ language}}';
     </script>
 
     <script>
