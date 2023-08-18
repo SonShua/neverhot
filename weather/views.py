@@ -2,17 +2,33 @@ from typing import Any, Dict
 from django.db import models
 from django.db.models.query import QuerySet
 from django.views.generic import ListView, DetailView
-from django.http import Http404, HttpRequest, HttpResponse, JsonResponse
+from django.http import Http404, HttpRequest, HttpResponse
 from .models import City, Forecast
 from django.shortcuts import render, redirect
-from .forms import InputForm
 from django.utils.translation import gettext_lazy as _
 from .utils import get_weather_forecast
 from weather.tasks import schedulded_update_weather
 from timezonefinder import TimezoneFinder
+from django_tables2 import SingleTableMixin
+from django_filters.views import FilterView
+from .tables import CityHTMxTable
+from .filters import CityFilter
 import datetime, pytz, json
-import environ
-import os
+
+
+class CityHTMxTableView(SingleTableMixin, FilterView):
+    table_class = CityHTMxTable
+    queryset = City.objects.all()
+    filterset_class = CityFilter
+    paginate_by = 15
+
+    def get_template_names(self):
+        if self.request.htmx:
+            template_name = "partials/product_table_partial.html"
+        else:
+            template_name = "tables/product_table_htmx.html"
+
+        return template_name
 
 
 class CityView(ListView):

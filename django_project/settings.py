@@ -55,6 +55,8 @@ INSTALLED_APPS = [
     "django_htmx",
     "background_task",
     "rosetta",
+    "django_tables2",
+    "django_filters"
     # "parler",
 ]
 
@@ -177,3 +179,12 @@ LOGOUT_REDIRECT_URL = "home"
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+# Tables
+
+DJANGO_TABLES2_TABLE_ATTRS = {
+    "class": "table table-hover",
+    "thead": {
+        "class": "table-light",
+    },
+}
