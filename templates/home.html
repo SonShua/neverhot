@@ -69,7 +69,7 @@
                     {% with 'images/'|add:city.img_path as image_static %}
                     <div class="p-2 pt-3">
                         <div class="img-zoom">
-                            <a href="{% url 'city_detail' city.pk %}"><img class="rounded-circle" style="width: 100px; height: 100px;object-fit: cover;
+                            <a href="{{city.get_absolute_url}}"><img class="rounded-circle" style="width: 100px; height: 100px;object-fit: cover;
                         object-position: center;" src="{% static image_static %}" alt="Berlin">
                                 <h6 class="img-description">
                                     {{city.city_name}}

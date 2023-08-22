@@ -12,7 +12,7 @@ def get_openweathermap_key():
     return api_key
 
 
-@ratelimit.decorate(key="ip", rate="5/m")
+@ratelimit.decorate(key="ip", rate="10/m")
 def get_locations(request, location_name):
     """Make API call to openweathermap geocode. Fetch location details (latidude, longitude, country) matching location_name.
     get_or_create object in database-
@@ -24,7 +24,7 @@ def get_locations(request, location_name):
         city_get_list: Existing city objects matching API data.
     """
     request_limit = getattr(request.ratelimit, "request_limit")
-    search_limit_results = 5
+    search_limit_results = 1
     api_key = get_openweathermap_key()
     url = f"http://api.openweathermap.org/geo/1.0/direct?q={location_name}&limit={search_limit_results}&appid={api_key}"
     city_created_list = []
@@ -75,7 +75,7 @@ def get_weather(lat, lon):
     return temp, hum, icon
 
 
-def get_weather_forecast(city_pk):
+def get_weather_forecast(slug):
     """API call to openweathermap to get weather forecasts. Create or update (city_pk + datetime) forecasts.
 
     Args:
@@ -87,7 +87,7 @@ def get_weather_forecast(city_pk):
     api_key = get_openweathermap_key()
     weather_forecast = {}
     try:
-        city = City.objects.get(id=city_pk)
+        city = City.objects.get(slug=slug)
         url = f"http://api.openweathermap.org/data/2.5/forecast?lat={city.lat}&lon={city.lon}&appid={api_key}"
         weather_forecast = requests.get(url).json()
         # range controls how far the forecast reaches, max is 38 (16 day forecast?)

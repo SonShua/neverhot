@@ -2,13 +2,8 @@ from __future__ import annotations
 
 from django import forms
 from django.urls import reverse_lazy
-from django.core.validators import RegexValidator
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, Submit
-
-
-class OddNumberForm(forms.Form):
-    number = forms.IntegerField()
 
 
 class CityForm(forms.Form):

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-17 11:41+0200\n"
-"PO-Revision-Date: 2023-08-17 11:44+0200\n"
+"POT-Creation-Date: 2023-08-21 16:20+0200\n"
+"PO-Revision-Date: 2023-08-21 16:21+0200\n"
 "Last-Translator:   <>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -19,11 +19,11 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Translated-Using: django-rosetta 0.9.9\n"
 
-#: .\django_project\settings.py:139
+#: .\django_project\settings.py:141
 msgid "German"
 msgstr "Deutsch"
 
-#: .\django_project\settings.py:140
+#: .\django_project\settings.py:142
 msgid "English"
 msgstr "Englisch"
 
@@ -31,23 +31,32 @@ msgstr "Englisch"
 msgid "Add a city to the database"
 msgstr "Füge eine Stadt hinzu"
 
-#: .\templates\base.html:42 .\templates\home.html:52
+#: .\templates\base.html:40 .\templates\home.html:52
 msgid "Weather"
 msgstr "Wetter"
 
-#: .\templates\base.html:69
+#: .\templates\base.html:43
+msgid "Cities"
+msgstr "Städte"
+
+#: .\templates\base.html:44
+#| msgid "Add city?"
+msgid "Add city"
+msgstr "Stadt hinzufügen"
+
+#: .\templates\base.html:70
 msgid "Sign Up"
 msgstr "Registrieren"
 
-#: .\templates\base.html:78
+#: .\templates\base.html:81
 msgid "Language"
 msgstr "Sprache"
 
-#: .\templates\city_detail.html:27 .\templates\weather.html:26
+#: .\templates\city_detail.html:28 .\templates\weather.html:26
 msgid "Humidity"
 msgstr "rel. Luftfeuchtigkeit"
 
-#: .\templates\city_detail.html:32
+#: .\templates\city_detail.html:33
 msgid "Wind speed"
 msgstr "Wind Geschwindigkeit"
 
@@ -69,12 +78,6 @@ msgstr ""
 "Dies ist eine Python / Django backend Website durch die ich mir Webentwicklungs Konzepte beibringe und implementiere. Ich fokussiere mich derzeit auf Backend Entwicklung und lerne Front-End on the go. Daher ist die Seite nicht so schön wie sein könnte mit einem Front-End Framework. Das Projekt ist lokalisiert und und übersetzt in Deutsch und Englisch."
 
 #: .\templates\home.html:56
-#| msgid ""
-#| "\n"
-#| "                            This app offers a responsive user interface, providing users with up-to-date weather\n"
-#| "                            information for the provided locations. The weather forecast data is fetched via the\n"
-#| "                            openweathermap.com API and displayed in Chart.js line chart.\n"
-#| "                            "
 msgid ""
 "\n"
 "                            This app offers a responsive user interface, providing users with up-to-date weather\n"
@@ -89,39 +92,64 @@ msgstr ""
 msgid "Add city?"
 msgstr "Stadt hinzufügen?"
 
-#: .\templates\partials\partial_location_results.html:8
+#: .\templates\home.html:98
+msgid "Search for a location"
+msgstr "Suche nach einem Ort"
+
+#: .\templates\partials\partial_location_results.html:9
 msgid "added successfully."
 msgstr "hinzugefügt."
 
-#: .\templates\partials\partial_location_results.html:19
+#: .\templates\partials\partial_location_results.html:20
 msgid "already in database."
 msgstr "bereits vorhanden."
 
-#: .\templates\partials\partial_location_results.html:28
+#: .\templates\partials\partial_location_results.html:29
 msgid " Nothing found."
 msgstr "Suche hat nichts gefunden."
 
-#: .\templates\partials\partial_location_results.html:35
+#: .\templates\partials\partial_location_results.html:36
 msgid " Please wait some time before making a new request. "
 msgstr "Bitte warte ein wenig bevor du eine neue Anfrage startest."
 
 #: .\templates\partials\partial_results.html:31
 #: .\templates\partials\partial_results.html:35
+#: .\templates\tables\bootstrap_htmx.html:29
 msgid "Previous"
 msgstr "Vorherige"
 
 #: .\templates\partials\partial_results.html:38
 #: .\templates\partials\partial_results.html:43
+#: .\templates\tables\bootstrap_htmx.html:47
 msgid "Next"
 msgstr "Nächste"
+
+#: .\templates\partials\time.html:2
+msgid "Local time"
+msgstr "Lokale Zeit"
 
 #: .\templates\weather.html:30
 msgid "Last updated:"
 msgstr "Zuletzt aktualisiert:"
 
-#: .\weather\views.py:75
+#: .\weather\forms.py:44
+msgid "Location name"
+msgstr "Ortsname"
+
+#: .\weather\models.py:12
+msgid "city_name"
+msgstr "stadt_name"
+
+#: .\weather\views.py:122
 msgid "Temperature [°C]"
 msgstr "Temperatur [°C]"
+
+#, fuzzy
+#~ msgid "Name of location"
+#~ msgstr "Suche nach einem Ort"
+
+#~ msgid "Which location are you missing {{user.username}}"
+#~ msgstr "Welcher Ort fehlt dir  {{user.username}}"
 
 #~ msgid "Hi! Welcome to my page"
 #~ msgstr "Hi! Willkommen auf meiner Seite"

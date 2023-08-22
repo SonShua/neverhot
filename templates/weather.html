@@ -19,7 +19,7 @@
                     <img src="{% static image_static %}" class="card-img-top rounded float-start" alt="city image">
                     {% endwith %}
                     <div class="card-header">
-                        <h5><a href="{% url 'city_detail' city.pk %}">{{city.city_name}}</a></h5>
+                        <h5><a href=" {{city.get_absolute_url}} ">{{city.city_name}}</a></h5>
                     </div>
                     <div class="card-body">
                         <p>{{city.temp}} °C</p>

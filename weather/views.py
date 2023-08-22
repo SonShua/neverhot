@@ -1,19 +1,23 @@
 from typing import Any, Dict
 from django.db import models
 from django.db.models.query import QuerySet
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, FormView
 from django.http import Http404, HttpRequest, HttpResponse
 from .models import City, Forecast
+from .forms import CityForm
+from .utils import get_locations
 from django.shortcuts import render, redirect
 from django.utils.translation import gettext_lazy as _
 from .utils import get_weather_forecast
-from weather.tasks import schedulded_update_weather
 from timezonefinder import TimezoneFinder
 from django_tables2 import SingleTableMixin
 from django_filters.views import FilterView
 from .tables import CityHTMxTable
 from .filters import CityFilter
 import datetime, pytz, json
+from crispy_forms.templatetags.crispy_forms_filters import as_crispy_field
+from django.template.context_processors import csrf
+from crispy_forms.utils import render_crispy_form
 
 
 class CityHTMxTableView(SingleTableMixin, FilterView):
@@ -24,49 +28,73 @@ class CityHTMxTableView(SingleTableMixin, FilterView):
 
     def get_template_names(self):
         if self.request.htmx:
-            template_name = "partials/product_table_partial.html"
+            template_name = "partials/city_table_partial.html"
         else:
-            template_name = "tables/product_table_htmx.html"
+            template_name = "tables/city_table_htmx.html"
 
         return template_name
+
+
+class AddCityView(FormView):
+    form_class = CityForm
+    template_name = "add_city.html"
+    # success_url = reverse_lazy("search")
+
+    def form_valid(self, form: Any) -> HttpResponse:
+        if self.request.htmx:
+            city_lists = get_locations(self.request, form.cleaned_data["city_name"])
+            print(self.request.ratelimit)
+            return render(
+                self.request,
+                "partials/partial_location_results.html",
+                {
+                    "city_created_list": city_lists[0],
+                    "city_get_list": city_lists[1],
+                    "nothing_found": city_lists[2],
+                    "limit": city_lists[3],
+                },
+            )
+        return super().form_valid(form)
+
+    def post(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            ctx = {}
+            ctx.update(csrf(self.request))
+            form_html = render_crispy_form(form, context=ctx)
+            return self.form_invalid(form_html)
+
+
+def check_locationname(request):
+    """View function for dynamically validation checking of location name input.
+    Could be integrated into SearchView (get method?)"""
+    form = CityForm(request.GET)
+    context = {
+        "field": as_crispy_field(form["city_name"]),
+        "valid": not form["city_name"].errors,  # If no errors, valid is set to True
+    }
+    return render(request, "partials/field.html", context)
 
 
 class CityView(ListView):
     model = City
     template_name = "weather.html"
-    schedulded_update_weather()
 
     def get_queryset(self):
         return self.model.objects.all()
 
 
-def sleep(request):
-    if request.htmx:
-        import time
-
-        time.sleep(10)
-
-
 class CityDetailView(ListView):
-    """
-    Goal: Display a line graph with the forecast data temperatures
-    Lets say for the beginning i always want to display 10 datapoints (~30 hours into the future)
-    So I need the last object from the queryset to have a minimum of 27 hours into the future
-
-    Cases:
-    How many objects are needed for the forecast?
-        Lets say its 18:00
-    """
-
     model = Forecast
     template_name = "city_detail.html"
 
     def get_context_data(self, **kwargs: Any):
-        queryset = Forecast.objects.filter(city__id=self.kwargs["pk"]).filter(
+        queryset = Forecast.objects.filter(city__slug=self.kwargs["slug"]).filter(
             datetime__gte=datetime.datetime.now(datetime.timezone.utc)
         )
-        city_name = City.objects.get(id=self.kwargs["pk"]).city_name
-        city = City.objects.get(id=self.kwargs["pk"])
+        city = City.objects.get(slug=self.kwargs["slug"])
         tf = TimezoneFinder()
         # Dataset constructor for line chart
         tz = pytz.timezone(tf.timezone_at(lng=city.lon, lat=city.lat))
@@ -96,7 +124,7 @@ class CityDetailView(ListView):
             "temp": temp_data,
             "temp_feel": temp_feel_data,
             "city": city,
-            "city_name": city_name,
+            "city_name": city.city_name,
             "forecast_list": queryset,
             "temp_trans": temp_trans,
             "time_city": time_city.strftime("%H:%M:%S"),
@@ -106,7 +134,7 @@ class CityDetailView(ListView):
 
     def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
         if self.request.htmx:
-            city = City.objects.get(id=self.kwargs["pk"])
+            city = City.objects.get(slug=self.kwargs["slug"])
             tf = TimezoneFinder()
             tz = pytz.timezone(tf.timezone_at(lng=city.lon, lat=city.lat))
             time_city = datetime.datetime.now(tz=tz)
@@ -121,9 +149,9 @@ class CityDetailView(ListView):
         """
         Return a queryset which has at least 27 hours of forecast data in the future
         """
-        queryset = self.model.objects.filter(city__id=self.kwargs["pk"])
+        queryset = self.model.objects.filter(city__slug=self.kwargs["slug"])
         if not queryset:
-            get_weather_forecast(self.kwargs["pk"])
+            get_weather_forecast(self.kwargs["slug"])
         # If not last forecast available is at least 27 hours in the future
         # Trigger API call to get new forecasts
         # Check: last forecast available is at least 27 hours in the future
@@ -131,48 +159,14 @@ class CityDetailView(ListView):
         min_future_date_forecast = datetime.datetime.now(
             datetime.timezone.utc
         ) + datetime.timedelta(hours=27)
-        queryset = self.model.objects.filter(city__id=self.kwargs["pk"])
+        queryset = self.model.objects.filter(city__slug=self.kwargs["slug"])
         if min_future_date_forecast > getattr(queryset.latest("datetime"), "datetime"):
             get_weather_forecast(self.kwargs["pk"])
-            queryset = self.model.objects.filter(city__id=self.kwargs["pk"])
+            queryset = self.model.objects.filter(city__slug=self.kwargs["slug"])
             if min_future_date_forecast > getattr(
                 queryset.latest("datetime"), "datetime"
             ):
                 raise Http404("No forecast data found")
-        return self.model.objects.filter(city__id=self.kwargs["pk"]).filter(
+        return self.model.objects.filter(city__slug=self.kwargs["slug"]).filter(
             datetime__gte=datetime.datetime.now(datetime.timezone.utc)
         )
-
-
-"""
-# Started the features of user search of a city with openweathermap api
-# On pause for now, no feature for user to add new city
-
-
-def CityAddView(request):
-    context = {}
-    form = InputForm(request.POST or None)
-    context["form"] = form
-    if request.method == "POST":
-        # might need to override the is_valid function to check for alpha chars
-        # could implement the cities_suggestion logic into the is_valid method then I wouldn't the extra view
-        if form.is_valid():
-            cities_suggestions = get_geocode(request.POST["name"])
-            if cities_suggestions:
-                request.session["cities_suggestions"] = cities_suggestions
-                return redirect("city_select")
-            else:
-                return redirect("no_city_found")
-    return render(request, "city_new.html", context)
-
-
-def CitySelectView(request):
-    context = {}
-    context["cities_suggestions"] = request.session["cities_suggestions"]
-    return render(request, "city_select.html", context)
-
-
-def NoCityView(request):
-    context = {}
-    return render(request, "no_city_found.html", context)
- """

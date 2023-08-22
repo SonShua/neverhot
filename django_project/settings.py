@@ -53,7 +53,6 @@ INSTALLED_APPS = [
     "crispy_forms",
     "crispy_bootstrap5",
     "django_htmx",
-    "background_task",
     "rosetta",
     "django_tables2",
     "django_filters"
