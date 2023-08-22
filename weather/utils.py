@@ -24,7 +24,7 @@ def get_locations(request, location_name):
         city_get_list: Existing city objects matching API data.
     """
     request_limit = getattr(request.ratelimit, "request_limit")
-    search_limit_results = 1
+    search_limit_results = 10
     api_key = get_openweathermap_key()
     url = f"http://api.openweathermap.org/geo/1.0/direct?q={location_name}&limit={search_limit_results}&appid={api_key}"
     city_created_list = []
