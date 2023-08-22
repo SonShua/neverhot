@@ -5,7 +5,7 @@
 {% block content %}
 <div id="weather-detail">
     <div class="icon-container">
-        <div hx-get="{% url 'city_detail' city.pk %}" , hx-trigger="load, every 55s">
+        <div hx-get=" {{city.get_absolute_url}}" , hx-trigger="load, every 55s">
             {% include "partials/time.html" %}
         </div>
         <h2 class="start">{{city.city_name}}, {{city.country}}</h2>

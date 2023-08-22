@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% load render_table from django_tables2 %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div id="main">
+    <div class="container">
+
+        <h4 id="search">Cities database</h4>
+
+        {# Search form #}
+        <form hx-get="{% url 'search' %}" hx-target="div.table-container" hx-swap="outerHTML" hx-indicator=".progress"
+            class="pt-3">
+            {% crispy filter.form %}
+        </form>
+
+        {# Progress indicator #}
+        <div class="progress">
+            <div class="indeterminate"></div>
+        </div>
+
+        {# The actual table #}
+        {% render_table table %}
+    </div>
+</div>
+{% endblock %}

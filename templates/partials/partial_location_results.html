@@ -5,7 +5,7 @@
     {% if city_created_list %}
     {% for city in city_created_list %}
     <div class="alert alert-success d-flex align-items-center alert-dismissible fade show" role="alert">
-        <strong><a href="{% url 'city_detail' city.pk %}">{{city.city_name}}, {{city.country}}</a>.
+        <strong><a href= "{{city.get_absolute_url}}">{{city.city_name}}, {{city.country}}</a>.
             {{city.lat|floatformat:4}}° {{city.lon | floatformat:4}}° {% trans "added successfully."%}</strong>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </button>
@@ -16,7 +16,7 @@
     {% elif city_get_list %}
     {% for city in city_get_list %}
     <div class="alert alert-warning d-flex align-items-center alert-dismissible fade show" role="alert">
-        <strong><a href="{% url 'city_detail' city.pk %}">{{city.city_name}}, {{city.country}}</a>.
+        <strong><a href="{{city.get_absolute_url}}">{{city.city_name}}, {{city.country}}</a>.
             {{city.lat|floatformat:4}}° {{city.lon | floatformat:4}}° {% trans "already in database."%}</strong>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </button>
