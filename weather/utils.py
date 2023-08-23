@@ -2,14 +2,11 @@ from .models import City, Forecast
 import requests
 import datetime as dt
 import os
-import environ
 import ratelimit
 
 
 def get_openweathermap_key():
-    env = environ.Env()
-    env.read_env()
-    api_key = env.str("OPENWEATHERMAP_KEY")
+    api_key = os.environ.get("OPENWEATHERMAP_KEY")
     return api_key
 
 

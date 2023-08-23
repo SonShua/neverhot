@@ -161,4 +161,4 @@ cython_debug/
 
 static/images
 
-build.sh
+staticfiles
