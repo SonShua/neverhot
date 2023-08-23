@@ -7,6 +7,7 @@ import ratelimit
 
 def get_openweathermap_key():
     api_key = os.environ.get("OPENWEATHERMAP_KEY")
+    print(os.environ)
     return api_key
 
 
@@ -91,6 +92,7 @@ def get_weather_forecast(slug):
         city = City.objects.get(slug=slug)
         base_url = "http://api.openweathermap.org/data/2.5/"
         url = f"{base_url}forecast?lat={city.lat}&lon={city.lon}&appid={api_key}"
+        print(url)
         weather_forecast = requests.get(url).json()
         # range controls how far the forecast reaches, max is 38 (16 day forecast?)
         # forecast is in three hour intervals (0,3,6,9,12,15,etc)

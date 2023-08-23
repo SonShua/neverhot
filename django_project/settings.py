@@ -13,10 +13,17 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 from django.utils.translation import gettext_lazy as _
 import os
+import environ
+
+
 import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Initialize the environmental variables
+env = environ.Env()
+environ.Env.read_env()
 
 
 # Quick-start development settings - unsuitable for production
@@ -28,7 +35,7 @@ SECRET_KEY = os.environ.get(
 )
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("DEBUG", default=False)
+DEBUG = True  # os.environ.get("DEBUG", default=False)
 
 ALLOWED_HOSTS = []
 RENDER_EXTERNAL_HOSTNAME = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
@@ -98,7 +105,7 @@ WSGI_APPLICATION = "django_project.wsgi.application"
 
 DATABASES = {
     "default": dj_database_url.config(
-        default="postgresql://postgres:postgres@localhost:5432/neverhot",
+        default="postgresql://postgres:postgres@localhost:5432/django_project",
         conn_max_age=600,
     )
 }
@@ -191,13 +198,13 @@ DJANGO_TABLES2_TABLE_ATTRS = {
 }
 
 # Deployment
-SECURE_SSL_REDIRECT = os.environ.get("DJANGO_SECURE_SSL_REDIRECT", default=True)
-SESSION_COOKIE_SECURE = os.environ.get("DJANGO_SESSION_COOKIE_SECURE", default=True)
-CSRF_COOKIE_SECURE = os.environ.get("DJANGO_CSRF_COOKIE_SECURE", default=True)
-SECURE_HSTS_SECONDS = os.environ.get(
-    "DJANGO_SECURE_HSTS_SECONDS", default=2592000
-)  # 30 days
-SECURE_HSTS_INCLUDE_SUBDOMAINS = os.environ.get(
-    "DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS", default=True
-)
-SECURE_HSTS_PRELOAD = os.environ.get("DJANGO_SECURE_HSTS_PRELOAD", default=True)
+# SECURE_SSL_REDIRECT = os.environ.get("DJANGO_SECURE_SSL_REDIRECT", default=True)
+# SESSION_COOKIE_SECURE = os.environ.get("DJANGO_SESSION_COOKIE_SECURE", default=True)
+# CSRF_COOKIE_SECURE = os.environ.get("DJANGO_CSRF_COOKIE_SECURE", default=True)
+# SECURE_HSTS_SECONDS = os.environ.get(
+#     "DJANGO_SECURE_HSTS_SECONDS", default=2592000
+# )  # 30 days
+# SECURE_HSTS_INCLUDE_SUBDOMAINS = os.environ.get(
+#     "DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS", default=True
+# )
+# SECURE_HSTS_PRELOAD = os.environ.get("DJANGO_SECURE_HSTS_PRELOAD", default=True)
