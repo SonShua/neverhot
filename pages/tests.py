@@ -7,19 +7,11 @@ from django.utils import translation
 class HomePageTests(TestCase):
     def setUp(self):
         # Mock data
-        City.objects.create(
-            city_name="Berlin",
-            lat=52.5170365,
-            lon=13.3888599,
-            temp=20,
-            hum=10,
-        )
+        City.objects.create(city_name="Berlin", lat=52.5170365, lon=13.3888599)
         City.objects.create(
             city_name="Stuttgart",
             lat=34.321,
             lon=21.3888599,
-            temp=30,
-            hum=40,
         )
 
     def test_url_exists_at_correct_location_homepageview(self):

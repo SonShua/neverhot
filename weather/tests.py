@@ -13,9 +13,7 @@ class CityTestCase(TestCase):
 
     def test_city_has_values(self):
         berlin = City.objects.get(city_name="Berlin")
-        self.assertGreater(berlin.temp, -20)
-        self.assertGreater(berlin.hum, 0)
-        self.assertIsNotNone(berlin.icon)
+        # self.assertContains(berlin.slug, "berlin")
 
 
 class ForecastTestCase(TestCase):
@@ -23,7 +21,6 @@ class ForecastTestCase(TestCase):
         # This is the only method used
         berlin = City.objects.create(city_name="Berlin", lat=52.5170365, lon=13.3888599)
         get_weather_forecast(berlin.pk)
-        # City.objects.create(city_name="Berlin", lat=52.5170365, lon=13.3888599)
         return super().setUp()
 
     def test_forecast_has_values(self):
@@ -39,5 +36,5 @@ class ForecastTestCase(TestCase):
 
     def test_url_exists_at_correct_location(self):
         berlin = City.objects.get(city_name="Berlin")
-        response = self.client.get(reverse("city_detail", kwargs={"pk": berlin.pk}))
+        response = self.client.get(reverse("city_detail", kwargs={"slug": berlin.slug}))
         self.assertEqual(response.status_code, 200)

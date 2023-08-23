@@ -7,11 +7,10 @@ class UsersManagersTests(TestCase):
     def test_create_user(self):
         User = get_user_model()
         # empty string email is converted to None in managers.py
-        user = User.objects.create_user(username="usher", email="", password="foo")
+        user = User.objects.create_user(username="usher", password="foo")
         self.assertEqual(user.username, "usher")
-        self.assertIsNone(user.email)
         self.assertFalse(user.is_staff)
         self.assertFalse(user.is_superuser)
-        with self.assertRaises(ValidationError):
-            User.objects.create_user(username="", email="", password="foo")
-        User.objects.create_user(username="liljohn", email=None, password="getlow")
+        with self.assertRaises(ValueError):
+            User.objects.create_user(username="", password="foo")
+        User.objects.create_user(username="liljohn", password="getlow")

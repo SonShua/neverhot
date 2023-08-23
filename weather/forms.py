@@ -1,8 +1,6 @@
 from django import forms
-from django import forms
 from django.urls import reverse_lazy
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Fieldset, Submit
 from django.utils.translation import gettext_lazy as _
 
 
@@ -21,9 +19,9 @@ class CityForm(forms.Form):
         self.helper.form_id = "city-form"
         self.helper.attrs = {
             "hx-post": reverse_lazy("add_city"),
-            "hx-target": "#results",  # div where the POST results are displayed
-            "hx-swap": "innerHTML",  # inner swap so the POST is repeatable
-            "hx-indicator": "#spinner",  # display the spinner waiting for response
+            "hx-target": "#results",
+            "hx-swap": "innerHTML",
+            "hx-indicator": "#spinner",
         }
         # self.helper.layout = Layout(
         #     Fieldset(

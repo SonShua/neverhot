@@ -1,12 +1,10 @@
-from typing import Any, Dict
-from django.db import models
-from django.db.models.query import QuerySet
-from django.views.generic import ListView, DetailView, FormView
+from typing import Any
+from django.views.generic import ListView, FormView
 from django.http import Http404, HttpRequest, HttpResponse
 from .models import City, Forecast
 from .forms import CityForm
 from .utils import get_locations
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.utils.translation import gettext_lazy as _
 from .utils import get_weather_forecast
 from timezonefinder import TimezoneFinder
@@ -14,7 +12,9 @@ from django_tables2 import SingleTableMixin
 from django_filters.views import FilterView
 from .tables import CityHTMxTable
 from .filters import CityFilter
-import datetime, pytz, json
+import datetime
+import pytz
+import json
 from crispy_forms.templatetags.crispy_forms_filters import as_crispy_field
 from django.template.context_processors import csrf
 from crispy_forms.utils import render_crispy_form
@@ -40,10 +40,9 @@ class AddCityView(FormView):
     template_name = "add_city.html"
     # success_url = reverse_lazy("search")
 
-    def form_valid(self, form: Any) -> HttpResponse:
+    def form_valid(self, form: Any):
         if self.request.htmx:
             city_lists = get_locations(self.request, form.cleaned_data["city_name"])
-            print(self.request.ratelimit)
             return render(
                 self.request,
                 "partials/partial_location_results.html",
