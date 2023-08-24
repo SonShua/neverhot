@@ -7,7 +7,6 @@ import ratelimit
 
 def get_openweathermap_key():
     api_key = os.environ.get("OPENWEATHERMAP_KEY")
-    print(os.environ)
     return api_key
 
 
