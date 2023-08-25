@@ -160,7 +160,7 @@ class CityDetailView(ListView):
         ) + datetime.timedelta(hours=27)
         queryset = self.model.objects.filter(city__slug=self.kwargs["slug"])
         if min_future_date_forecast > getattr(queryset.latest("datetime"), "datetime"):
-            get_weather_forecast(self.kwargs["pk"])
+            get_weather_forecast(self.kwargs["slug"])
             queryset = self.model.objects.filter(city__slug=self.kwargs["slug"])
             if min_future_date_forecast > getattr(
                 queryset.latest("datetime"), "datetime"

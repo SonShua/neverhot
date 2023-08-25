@@ -36,10 +36,10 @@ SECRET_KEY = os.environ.get(
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-if DEBUG:
+if not DEBUG:
     DEBUG_PROPAGATE_EXCEPTIONS = True
 
-ALLOWED_HOSTS = [""]
+ALLOWED_HOSTS = ["127.0.0.1"]
 RENDER_EXTERNAL_HOSTNAME = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
@@ -198,6 +198,7 @@ if not DEBUG:  # Tell Django to copy statics to the `staticfiles` directory
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 LOGIN_REDIRECT_URL = "home"
+LOGIN_URL = "/users/login/"
 LOGOUT_REDIRECT_URL = "home"
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
