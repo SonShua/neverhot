@@ -1,6 +1,7 @@
 from django import forms
 from django.urls import reverse_lazy
-from crispy_forms.helper import FormHelper
+from crispy_forms.helper import FormHelper, Layout
+from crispy_forms.layout import Submit, Fieldset
 from django.utils.translation import gettext_lazy as _
 
 
@@ -23,13 +24,13 @@ class CityForm(forms.Form):
             "hx-swap": "innerHTML",
             "hx-indicator": "#spinner",
         }
-        # self.helper.layout = Layout(
-        #     Fieldset(
-        #         _("Which location are you missing {{user.username}}"),
-        #         "city_name",
-        #     ),
-        #     self.helper.add_input(Submit("submit", "Search")),
-        # )
+        self.helper.layout = Layout(
+            Fieldset(
+                _("Which location are you missing {{user.username}}"),
+                "city_name",
+            ),
+            self.helper.add_input(Submit("submit", "Search")),
+        )
 
     city_name = forms.CharField(
         label="",

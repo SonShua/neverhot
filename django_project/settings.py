@@ -35,10 +35,10 @@ SECRET_KEY = os.environ.get(
 )
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-# DEBUG_PROPAGATE_EXCEPTIONS = True
+DEBUG = False
+DEBUG_PROPAGATE_EXCEPTIONS = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["www.neverhot.org"]
 RENDER_EXTERNAL_HOSTNAME = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
@@ -160,9 +160,7 @@ LANGUAGES = [
     ("en", _("English")),
 ]
 
-LOCALE_PATHS = [
-    BASE_DIR / "locale/",
-]
+LOCALE_PATHS = (os.path.join(BASE_DIR, "locale"),)
 
 PARLER_LANGUAGES = {
     None: (
