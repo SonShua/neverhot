@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-21 16:20+0200\n"
-"PO-Revision-Date: 2023-08-21 16:21+0200\n"
+"POT-Creation-Date: 2023-08-28 13:32+0200\n"
+"PO-Revision-Date: 2023-08-28 13:33+0200\n"
 "Last-Translator:   <>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -19,65 +19,71 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Translated-Using: django-rosetta 0.9.9\n"
 
-#: .\django_project\settings.py:141
+#: .\django_project\settings.py:158
 msgid "German"
 msgstr "Deutsch"
 
-#: .\django_project\settings.py:142
+#: .\django_project\settings.py:159
 msgid "English"
 msgstr "Englisch"
 
-#: .\templates\add_city.html:15
-msgid "Add a city to the database"
-msgstr "Füge eine Stadt hinzu"
-
-#: .\templates\base.html:40 .\templates\home.html:52
-msgid "Weather"
-msgstr "Wetter"
-
-#: .\templates\base.html:43
-msgid "Cities"
-msgstr "Städte"
-
-#: .\templates\base.html:44
-#| msgid "Add city?"
+#: .\templates\add_city.html:10 .\templates\base.html:45
 msgid "Add city"
 msgstr "Stadt hinzufügen"
 
-#: .\templates\base.html:70
+#: .\templates\add_city.html:16
+msgid "Add a city to the database"
+msgstr "Füge eine Stadt hinzu"
+
+#: .\templates\base.html:41 .\templates\home.html:52
+msgid "Weather"
+msgstr "Wetter"
+
+#: .\templates\base.html:44
+msgid "Cities"
+msgstr "Städte"
+
+#: .\templates\base.html:68
 msgid "Sign Up"
 msgstr "Registrieren"
 
-#: .\templates\base.html:81
+#: .\templates\base.html:79
 msgid "Language"
 msgstr "Sprache"
 
-#: .\templates\city_detail.html:28 .\templates\weather.html:26
+#: .\templates\city_detail.html:23 .\templates\weather.html:26
 msgid "Humidity"
 msgstr "rel. Luftfeuchtigkeit"
 
-#: .\templates\city_detail.html:33
-msgid "Wind speed"
-msgstr "Wind Geschwindigkeit"
-
-#: .\templates\home.html:28
+#: .\templates\home.html:26
 msgid "Welcome to Never Hot."
 msgstr "Willkommen zu Never Hot."
 
-#: .\templates\home.html:30
+#: .\templates\home.html:28
+#, fuzzy
+#| msgid ""
+#| "\n"
+#| "                                This is a website with a Python / Django backend\n"
+#| "                                where I teach myself and implement concepts of web development. I mainly focus on\n"
+#| "                                backend development and learning frontend development on the go. Therefore this site\n"
+#| "                                will not be as beautiful as could be. The project is localized and partly translated in\n"
+#| "                                English and German.\n"
+#| "                                "
 msgid ""
 "\n"
-"                                This is a website with a Python / Django backend\n"
-"                                where I teach myself and implement concepts of web development. I mainly focus on\n"
-"                                backend development and learning frontend development on the go. Therefore this site\n"
-"                                will not be as beautiful as could be. The project is localized and partly translated in\n"
-"                                English and German.\n"
-"                                "
+"                            This is a website with a Python / Django backend\n"
+"                            where I teach myself and implement concepts of web development. I mainly focus on\n"
+"                            backend development and doing frontend development on the go with Bootstrap5 and HTMX.\n"
+"                            Therefore this site\n"
+"                            will not be as beautiful as could be with a front-end framework. The project is localized\n"
+"                            and partly translated in\n"
+"                            English and German.\n"
+"                            "
 msgstr ""
 "\n"
 "Dies ist eine Python / Django backend Website durch die ich mir Webentwicklungs Konzepte beibringe und implementiere. Ich fokussiere mich derzeit auf Backend Entwicklung und lerne Front-End on the go. Daher ist die Seite nicht so schön wie sein könnte mit einem Front-End Framework. Das Projekt ist lokalisiert und und übersetzt in Deutsch und Englisch."
 
-#: .\templates\home.html:56
+#: .\templates\home.html:57
 msgid ""
 "\n"
 "                            This app offers a responsive user interface, providing users with up-to-date weather\n"
@@ -88,13 +94,41 @@ msgstr ""
 "\n"
 "Die App bietet ein responsive Interface das Nutzer mit aktuellen Wetter Daten versorgt. Die Daten der Wettervorhersage entstammen der API von openweathermap.com und werden in einem Chart.js Liniengraph dargestellt."
 
-#: .\templates\home.html:89
+#: .\templates\home.html:90
 msgid "Add city?"
 msgstr "Stadt hinzufügen?"
 
-#: .\templates\home.html:98
+#: .\templates\home.html:99
 msgid "Search for a location"
 msgstr "Suche nach einem Ort"
+
+#: .\templates\home.html:116
+#| msgid ""
+#| "\n"
+#| "                            Coming soon.<br><br>\n"
+#| "                            Get ready with ease using our app that suggests outfits based on your local weather. It\n"
+#| "                            tells\n"
+#| "                            you\n"
+#| "                            what to wear each day, so you're comfortable and never hot no matter if it's sunny, rainy, or\n"
+#| "                            cold.\n"
+#| "                            Make dressing up simple and smart with our weather-based clothing recommendations!\n"
+#| "                            "
+msgid ""
+"\n"
+"                            <strong>Coming soon. Currently collecting data for machine learning algorithm. </strong><br><br>\n"
+"                            Get ready with ease using our app that suggests outfits based on your local weather. It\n"
+"                            tells you what to wear each day, so you're comfortable and never hot no matter if it's sunny, rainy, or cold.\n"
+"                            Make dressing up simple and smart with our weather-based clothing recommendations!\n"
+"                            "
+msgstr ""
+"\n"
+"<strong>Coming soon. Aktuell werden Daten gesammelt für den Machine Learning Algorithmus. </strong><br><br>\n"
+"Ziehen Sie sich an basierend auf Outfit-Vorschläge angepasst auf Ihr örtliches Wetter. Die App gibt Ihnen Vorschläge damit Sie bei Sonnenschein, Regen oder Kälte bequem gekleidet und never hot werden. Vereinfachen Sie Ihre Outfit Wahl."
+
+#: .\templates\partials\field.html:6 .\templates\partials\field.html:8
+#: .\weather\forms.py:21
+msgid "Search"
+msgstr "Suche"
 
 #: .\templates\partials\partial_location_results.html:9
 msgid "added successfully."
@@ -136,13 +170,16 @@ msgstr "Zuletzt aktualisiert:"
 msgid "Location name"
 msgstr "Ortsname"
 
-#: .\weather\models.py:12
+#: .\weather\models.py:11
 msgid "city_name"
 msgstr "stadt_name"
 
-#: .\weather\views.py:122
+#: .\weather\views.py:121
 msgid "Temperature [°C]"
 msgstr "Temperatur [°C]"
+
+#~ msgid "Wind speed"
+#~ msgstr "Wind Geschwindigkeit"
 
 #, fuzzy
 #~ msgid "Name of location"

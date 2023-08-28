@@ -13,14 +13,13 @@ class CityTestCase(TestCase):
 
     def test_city_has_values(self):
         berlin = City.objects.get(city_name="Berlin")
-        # self.assertContains(berlin.slug, "berlin")
+        self.assertEqual(berlin.slug, "berlin")
 
 
 class ForecastTestCase(TestCase):
     def setUp(self):
         # This is the only method used
         berlin = City.objects.create(city_name="Berlin", lat=52.5170365, lon=13.3888599)
-        get_weather_forecast(berlin.pk)
         return super().setUp()
 
     def test_forecast_has_values(self):

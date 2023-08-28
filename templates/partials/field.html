@@ -1,8 +1,10 @@
+{% load i18n %}
 {{ field|safe }}
 
+
 {% if valid %}
-<input type="submit" name="submit" value="Search" class="btn btn-primary" id="submit-id-submit" hx-swap-oob="true">
+<input type="submit" name="submit" value={% trans "Search" %} class="btn btn-primary" id="submit-id-submit" hx-swap-oob="true">
 {% else %}
-<input type="submit" name="submit" value="Search" class="btn btn-primary" id="submit-id-submit" hx-swap-oob="true"
+<input type="submit" name="submit" value={% trans "Search" %} class="btn btn-primary" id="submit-id-submit" hx-swap-oob="true"
     disabled>
 {% endif %}

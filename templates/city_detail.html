@@ -4,6 +4,7 @@
 
 {% block content %}
 <div id="main">
+    <title>Weather in {{city.city_name}}, {{city.country}}</title>
     <div class="d-flex justify-content-flex-start flex-column">
         
         <div style = "margin-left:16px;" hx-get=" {{city.get_absolute_url}}" , hx-trigger="load, every 55s" style="">
