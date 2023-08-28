@@ -3,38 +3,29 @@
 {% load tz %}
 
 {% block content %}
-<div id="weather-detail">
-    <div class="icon-container">
-        <div hx-get=" {{city.get_absolute_url}}" , hx-trigger="load, every 55s">
+<div id="main">
+    <title>Weather in {{city.city_name}}, {{city.country}}</title>
+    <div class="d-flex justify-content-flex-start flex-column">
+        
+        <div style = "margin-left:16px;" hx-get=" {{city.get_absolute_url}}" , hx-trigger="load, every 55s" style="">
             {% include "partials/time.html" %}
         </div>
-        <h2 class="start">{{city.city_name}}, {{city.country}}</h2>
+        <div style = "margin-left:15px;"><h2>{{city.city_name}}, {{city.country}}</h2></div>
     </div>
 
-    <div class="icon-container">
-        <div class="d-flex 
-                justify-content-start 
-                flex-row">
-            <div class="col">
-                <img class="icon" src="https://openweathermap.org/img/wn/{{forecast_list.0.icon}}@2x.png">
+    <div class="d-flex justify-content-flex-start">
+        <div class = "p-2"><img class="icon" src="https://openweathermap.org/img/wn/{{forecast_list.0.icon}}@2x.png"></div>
+        <div class="d-flex justify-content-flex-start flex-column">
+            <div class = "pt-3">
+                <h2><strong>{{forecast_list.0.temp}}°C</strong></h2>
             </div>
-            <div class="col-md-auto align-self-center">
-                <h1>{{forecast_list.0.temp}}°C</h1>
-            </div>
-            <div class="col-md-auto mx-3">
-                <div class="d-flex 
-                justify-content-start 
-                flex-row">
-                    {{forecast_list.0.hum}} % {% trans 'Humidity' %}<br>
-                </div>
-                <div class="d-flex 
-                justify-content-start 
-                flex-row">
-                    {{forecast_list.0.wind_speed}} m/s {% trans 'Wind speed' %}
-                </div>
-            </div>
+            <p class = "h6" style ="font-size: 0.8rem">
+                {% trans 'Humidity' %} {{forecast_list.0.hum}} % <br>
+                Wind: {{forecast_list.0.wind_speed}} m/s
+            </p>
         </div>
     </div>
+
 
 
     <!-- Charts scripts and canvas-->
@@ -124,5 +115,6 @@
 
     </script>
 
+</div>
 </div>
 {% endblock content %}

@@ -38,7 +38,6 @@ class CityHTMxTableView(SingleTableMixin, FilterView):
 class AddCityView(FormView):
     form_class = CityForm
     template_name = "add_city.html"
-    # success_url = reverse_lazy("search")
 
     def form_valid(self, form: Any):
         if self.request.htmx:
@@ -90,6 +89,7 @@ class CityDetailView(ListView):
     template_name = "city_detail.html"
 
     def get_context_data(self, **kwargs: Any):
+        """Returns city object and their forecast data as json optimized for chart.js"""
         queryset = Forecast.objects.filter(city__slug=self.kwargs["slug"]).filter(
             datetime__gte=datetime.datetime.now(datetime.timezone.utc)
         )
@@ -123,7 +123,6 @@ class CityDetailView(ListView):
             "temp": temp_data,
             "temp_feel": temp_feel_data,
             "city": city,
-            "city_name": city.city_name,
             "forecast_list": queryset,
             "temp_trans": temp_trans,
             "time_city": time_city.strftime("%H:%M:%S"),
@@ -132,6 +131,7 @@ class CityDetailView(ListView):
         return context
 
     def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
+        """Fetches the local time at the displayed location"""
         if self.request.htmx:
             city = City.objects.get(slug=self.kwargs["slug"])
             tf = TimezoneFinder()
@@ -160,7 +160,7 @@ class CityDetailView(ListView):
         ) + datetime.timedelta(hours=27)
         queryset = self.model.objects.filter(city__slug=self.kwargs["slug"])
         if min_future_date_forecast > getattr(queryset.latest("datetime"), "datetime"):
-            get_weather_forecast(self.kwargs["pk"])
+            get_weather_forecast(self.kwargs["slug"])
             queryset = self.model.objects.filter(city__slug=self.kwargs["slug"])
             if min_future_date_forecast > getattr(
                 queryset.latest("datetime"), "datetime"

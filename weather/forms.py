@@ -18,19 +18,20 @@ class CityForm(forms.Form):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_id = "city-form"
+        self.helper.add_input(Submit("submit", _("Search")))
         self.helper.attrs = {
             "hx-post": reverse_lazy("add_city"),
             "hx-target": "#results",
             "hx-swap": "innerHTML",
             "hx-indicator": "#spinner",
         }
-        self.helper.layout = Layout(
-            Fieldset(
-                _("Which location are you missing {{user.username}}"),
-                "city_name",
-            ),
-            self.helper.add_input(Submit("submit", "Search")),
-        )
+        # self.helper.layout = Layout(
+        #     Fieldset(
+        #         _("Which location are you missing {{user.username}}"),
+        #         "city_name",
+        #     ),
+        #     self.helper.add_input(Submit("submit", "Search")),
+        # )
 
     city_name = forms.CharField(
         label="",
@@ -39,7 +40,7 @@ class CityForm(forms.Form):
             attrs={
                 "hx-get": reverse_lazy("check_locationname"),
                 "hx-target": "#div_id_city_name",
-                "hx-trigger": "keyup[target.value.length > 3]",
+                "hx-trigger": "mousemove",
                 "placeholder": _("Location name"),
             }
         ),

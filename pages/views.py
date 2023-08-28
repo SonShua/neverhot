@@ -1,5 +1,5 @@
 from typing import Any
-from django.views.generic import ListView, CreateView, FormView
+from django.views.generic import ListView, CreateView, FormView, TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from weather.models import City
 from weather.utils import get_locations
@@ -19,13 +19,8 @@ class HomePageSearchView(ListView):
     def get_queryset(self):
         return self.model.objects.all()[:5]
 
-    # @ratelimit.decorate(key="ip", rate="1/s")
     def get(self, request, *args, **kwargs):
         """The request has htmx appendix when the search bar is used. The client input is searched in the db and returned in page.object_list"""
-        # if request.ratelimit["request_limit"] > 0:
-        # reschedule with end of rate epoch
-        #    print("request_waiting:" + request.ratelimit["end"])
-
         if request.htmx:
             search = request.GET.get("q")
             page_num = request.GET.get("page", 1)
@@ -44,3 +39,8 @@ class HomePageSearchView(ListView):
                 context={"page": page},
             )
         return super().get(request, *args, **kwargs)
+
+
+class PrivacyView(TemplateView):
+    # Shows the Privacy Policy
+    template_name = "privacy.html"

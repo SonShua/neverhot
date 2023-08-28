@@ -10,49 +10,50 @@
 {% block content %}
 
 <head>
-    <title>Homepage</title>
+    <title>Home</title>
 </head>
 
 <body>
     <div id="main">
-        
-
-            <!-- Home heading-->
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <h3 id="home">Home</h3>
+        <!-- Home heading-->
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h3 id="home">Home</h3>
+                </div>
+                <div class="d-flex p-2 flex-wrap justify-content-evenly">
+                    <div class="col-md-8 pt-3">
+                        <h6> {% trans "Welcome to Never Hot." %} </h6>
+                        <p style="text-align: justify;">
+                            {% blocktranslate %}
+                            This is a website with a Python / Django backend
+                            where I teach myself and implement concepts of web development. I mainly focus on
+                            backend development and doing frontend development on the go with Bootstrap5 and HTMX.
+                            Therefore this site
+                            will not be as beautiful as could be with a front-end framework. The project is localized
+                            and partly translated in
+                            English and German.
+                            {% endblocktranslate %}
+                        </p>
                     </div>
-                    <div class="d-flex p-2 flex-wrap justify-content-evenly">
-                        <div class="col-md-8 pt-3">
-                            <h6> {% trans "Welcome to Never Hot." %} </h6>
-                            <p style="text-align: justify;">
-                                {% blocktranslate %}
-                                This is a website with a Python / Django backend
-                                where I teach myself and implement concepts of web development. I mainly focus on
-                                backend development and learning frontend development on the go. Therefore this site
-                                will not be as beautiful as could be. The project is localized and partly translated in
-                                English and German.
-                                {% endblocktranslate %}
-                            </p>
-                        </div>
-                        <!-- Django Logo-->
-                        <div class="col-md-4 align-self-center text-center pt-3">
-                            <img class="img-fluid mx-auto" style="max-width: 200px;"
-                                src="{% static 'images/django-logo-negative.svg' %}" alt="Django logo">
-                        </div>
+                    <!-- Django Logo-->
+                    <div class="col-md-4 align-self-center text-center pt-3">
+                        <img class="img-fluid mx-auto" style="max-width: 200px;"
+                            src="{% static 'images/django-logo-negative.svg' %}" alt="Django logo">
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- Weather heading-->
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <h3 id="weather">{% trans "Weather" %}</h3>
-                    </div>
-                    <div class="d-flex p-2">
-                        <p>
+        <!-- Weather heading-->
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h3 id="weather">{% trans "Weather" %}</h3>
+                </div>
+                <div class="d-flex p-2  ">
+                    <div class="col-md-12 pt-3">
+                        <p style="text-align: justify;">
                             {% blocktranslate %}
                             This app offers a responsive user interface, providing users with up-to-date weather
                             information. The weather forecast data is fetched via the
@@ -84,7 +85,7 @@
                     <div class="p-2 pt-3">
                         <div class="img-zoom">
                             <a href="{% url 'add_city' %}"><img class="rounded-circle" style="width: 100px; height: 100px;
-                        object-position: center;" src="{% static 'images/default.svg' %}" alt="Berlin">
+                        object-position: center;" src="{% static 'images/default.jpg' %}" alt="Berlin">
                                 <p class="img-description" style="white-space: nowrap;">
                                     {% trans "Add city?" %}
                                     <p>
@@ -92,7 +93,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- Asycn Search Bar : Cities that are in Database-->
+                <!-- HTMX Search Bar : Cities that are in Database-->
                 <div class="d-flex pt-5 flex-wrap justify-content-center">
                     <div class="search">
                         <input name="q" placeholder="{% trans 'Search for a location' %}" hx-get="{% url 'home' %}"
@@ -100,15 +101,29 @@
                     </div>
                 </div>
 
-                <!-- Results of the Async search bar are swapped into here-->
+                <!-- Results of the HTMX search bar are swapped into here-->
                 <section id="results">
                     {% include "partials/partial_results.html" %}
                 </section>
 
+                <div class="col-12 pt-3">
+                    <h3 id="home">Never Hot</h3>
+                </div>
+                <div class="d-flex p-2 flex-wrap justify-content-evenly">
+                    <div class="col-md-12">
+                        <p style="text-align: justify;">
 
+                            {% blocktranslate %}
+                            <strong>Coming soon. Currently collecting data for machine learning algorithm. </strong><br><br>
+                            Get ready with ease using our app that suggests outfits based on your local weather. It
+                            tells you what to wear each day, so you're comfortable and never hot no matter if it's sunny, rainy, or cold.
+                            Make dressing up simple and smart with our weather-based clothing recommendations!
+                            {% endblocktranslate %}
+                        </p>
+                    </div>
+                </div>
 
-
-        </div>
+            </div>
 
 
 </body>
