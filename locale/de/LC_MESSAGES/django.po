@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-28 13:32+0200\n"
-"PO-Revision-Date: 2023-08-28 13:33+0200\n"
+"POT-Creation-Date: 2023-08-29 08:43+0200\n"
+"PO-Revision-Date: 2023-08-29 08:44+0200\n"
 "Last-Translator:   <>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -43,11 +43,15 @@ msgstr "Wetter"
 msgid "Cities"
 msgstr "Städte"
 
-#: .\templates\base.html:68
+#: .\templates\base.html:58
+msgid "Change Password"
+msgstr "Passwort ändern"
+
+#: .\templates\base.html:66
 msgid "Sign Up"
 msgstr "Registrieren"
 
-#: .\templates\base.html:79
+#: .\templates\base.html:77
 msgid "Language"
 msgstr "Sprache"
 
@@ -103,16 +107,6 @@ msgid "Search for a location"
 msgstr "Suche nach einem Ort"
 
 #: .\templates\home.html:116
-#| msgid ""
-#| "\n"
-#| "                            Coming soon.<br><br>\n"
-#| "                            Get ready with ease using our app that suggests outfits based on your local weather. It\n"
-#| "                            tells\n"
-#| "                            you\n"
-#| "                            what to wear each day, so you're comfortable and never hot no matter if it's sunny, rainy, or\n"
-#| "                            cold.\n"
-#| "                            Make dressing up simple and smart with our weather-based clothing recommendations!\n"
-#| "                            "
 msgid ""
 "\n"
 "                            <strong>Coming soon. Currently collecting data for machine learning algorithm. </strong><br><br>\n"

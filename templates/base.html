@@ -45,10 +45,9 @@
                                       <li><a class="dropdown-item" href="{% url 'add_city' %}">{% trans 'Add city' %}</a></li>
                                     </ul>
                                   </li>
-                          
                             </ul>
-                            <!-- User section  -->
 
+                            <!-- User section  -->
                             {% if user.is_authenticated %}
                             <div class="dropdown">
                                 <button class="btn btn-secondary btn-sm dropdown-toggle" type="button"
@@ -56,8 +55,7 @@
                                     {{user.username}}
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="{% url 'password_change' %}">{% trans "Change
-                                            Password" %}</a>
+                                    <li><a class="dropdown-item" href="{% url 'password_change' %}">{% trans "Change Password" %}</a>
                                     </li>
                                     <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
                                 </ul>
