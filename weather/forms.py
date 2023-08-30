@@ -23,7 +23,7 @@ class CityForm(forms.Form):
             "hx-post": reverse_lazy("add_city"),
             "hx-target": "#results",
             "hx-swap": "innerHTML",
-            "hx-indicator": "#spinner",
+            "hx-indicator": "#ind",
         }
         # self.helper.layout = Layout(
         #     Fieldset(
@@ -42,6 +42,7 @@ class CityForm(forms.Form):
                 "hx-target": "#div_id_city_name",
                 "hx-trigger": "keyup[target.value.length <= 4]",
                 "placeholder": _("Location name"),
+                "hx-indicator": "this",
             }
         ),
     )

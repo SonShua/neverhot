@@ -20,27 +20,23 @@
                 <div class="search">
                     {% crispy form %}
                 </div>
-                <p>
-                    <!--Newly created objects are displayed here. 
+            </div>
+            <!--Newly created objects are displayed here. 
                 Includes a spinner that is triggered by the Submit button of the crispy form. 
                 Locations that were already in Database are not displayed-->
-                <div class="d-flex p-2">
-                    <div id="spinner" class="htmx-indicator">
-                        <div class="spinner-border" role="status">
-                            <span class="visually-hidden">{% trans "Loading..."}</span>
-                        </div>
-                    </div>
-                    <section id="results">
-                        {% include "partials/partial_location_results.html" %}
-                    </section>
-                </div>
-            </div>
+
         </div>
-
-        <!-- Modal -->
-
-
+        <section id="results">
+            <img id="ind" src="/images/bars.svg" class="htmx-indicator" />
+            {% include "partials/partial_location_results.html" %}
+        </section>
     </div>
+</div>
+
+<!-- Modal -->
+
+
+</div>
 </div>
 
 {% endblock content %}
