@@ -40,7 +40,7 @@ class CityForm(forms.Form):
             attrs={
                 "hx-get": reverse_lazy("check_locationname"),
                 "hx-target": "#div_id_city_name",
-                "hx-trigger": "keyup[target.value.length <= 4]",
+                "hx-trigger": "change",
                 "placeholder": _("Location name"),
                 "hx-indicator": "this",
             }
