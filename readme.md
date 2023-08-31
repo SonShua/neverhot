@@ -1,7 +1,7 @@
 # Never Hot
 
 <img src=https://github.com/SonShua/neverhot/blob/main/never_hot.gif width="650" />
-Personal project. Simple App that display weather forecast data and allows user to add cities/location to the database. There will be a clothing recommendation app added on top of the forecast data. Currently running local development, collecting data and trying out different ML approaches.
+App that display weather forecast data and allows user to add cities/location to the database. There will be a clothing recommendation app added on top of the forecast data. Currently running local development, collecting data and trying out different ML approaches.
 
 ## Homepage
 On the homepage you will find 6 clickable images which will zoom in on hover and display their respective name. Below that there is a search bar implemented with HTMX which will perform an async search on the database. The search results will display in a paginated list below that with previous/next buttons always displayed but disabled when not available. 
