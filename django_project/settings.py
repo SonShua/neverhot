@@ -33,7 +33,7 @@ environ.Env.read_env()
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 if not DEBUG:
     DEBUG_PROPAGATE_EXCEPTIONS = True
 
@@ -196,7 +196,7 @@ if not DEBUG:  # Tell Django to copy statics to the `staticfiles` directory
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 LOGIN_REDIRECT_URL = "home"
-LOGIN_URL = "/users/login/"
+LOGIN_URL = "login"
 LOGOUT_REDIRECT_URL = "home"
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"

@@ -8,7 +8,7 @@
 <div class="container">
     <h2>Sign Up</h2>
     <form method="post">{% csrf_token %}
-        {{ form|crispy }}
+        {% crispy form %}
         <button class="btn btn-success" type="submit">Sign Up</button>
     </form>
 </div>
