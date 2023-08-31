@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-08-29 08:43+0200\n"
-"PO-Revision-Date: 2023-08-29 08:44+0200\n"
+"PO-Revision-Date: 2023-08-31 12:49+0200\n"
 "Last-Translator:   <>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -64,7 +64,6 @@ msgid "Welcome to Never Hot."
 msgstr "Willkommen zu Never Hot."
 
 #: .\templates\home.html:28
-#, fuzzy
 #| msgid ""
 #| "\n"
 #| "                                This is a website with a Python / Django backend\n"
@@ -85,7 +84,7 @@ msgid ""
 "                            "
 msgstr ""
 "\n"
-"Dies ist eine Python / Django backend Website durch die ich mir Webentwicklungs Konzepte beibringe und implementiere. Ich fokussiere mich derzeit auf Backend Entwicklung und lerne Front-End on the go. Daher ist die Seite nicht so schön wie sein könnte mit einem Front-End Framework. Das Projekt ist lokalisiert und und übersetzt in Deutsch und Englisch."
+"Dies ist eine Python / Django Backend Website durch die ich mir Webentwicklungs Konzepte beibringe und implementiere. Ich fokussiere mich derzeit auf Backend Entwicklung und lerne Front-End on the go mit Bootstrap5 und HTMX. Daher ist die Seite nicht so schön wie sein könnte mit einem Front-End Framework. Das Projekt ist lokalisiert und und übersetzt in Deutsch und Englisch."
 
 #: .\templates\home.html:57
 msgid ""

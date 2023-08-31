@@ -33,7 +33,7 @@ environ.Env.read_env()
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 if not DEBUG:
     DEBUG_PROPAGATE_EXCEPTIONS = True
 

@@ -23,7 +23,6 @@ def get_locations(request, location_name):
         city_get_list: Existing city objects matching API data.
     """
     request_limit = getattr(request.ratelimit, "request_limit")
-    print(request_limit)
     search_limit_results = 10
     api_key = get_openweathermap_key()
     base_url = "http://api.openweathermap.org/geo/1.0/"
