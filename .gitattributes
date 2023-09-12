@@ -1,2 +1,2 @@
-static/js/* linguist-vendored
-static_root/js/* linguist-vendored
+static/** linguist-vendored
+staticfiles/** linguist-vendored
